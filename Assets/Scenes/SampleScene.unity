@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 267103109}
   - component: {fileID: 267103108}
   - component: {fileID: 267103107}
+  - component: {fileID: 267103111}
   m_Layer: 0
-  m_Name: SamsungGalaxyS8+
+  m_Name: MobileDevice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -214,12 +215,24 @@ Transform:
   m_GameObject: {fileID: 267103106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 15.9, y: 0.81, z: 7.3}
+  m_LocalScale: {x: 7.3, y: 15.9, z: 0.81}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &267103111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267103106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 301c784b5ce26134f9a8d298400a6b6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &694870280
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +262,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4984b6ac317f83e4faaf29612e498039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ip: 192.168.42.113
+  port: 9000
 --- !u!4 &694870282
 Transform:
   m_ObjectHideFlags: 0
@@ -435,7 +450,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -20.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
