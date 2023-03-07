@@ -36,12 +36,14 @@ public class UDPReceiver : MonoBehaviour {
     void ParseMessage(string message)
     {
         string[] splitMessage = message.Split(':');
+        Debug.Log(message);
         if (splitMessage[0] == "Touch")
         {
             string[] coords = splitMessage[1].Split(',');
-            //Remove parenthesis and replace . with ,
-            float x = float.Parse(coords[0].Substring(1).Replace(".",","));
-            float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1).Replace(".",","));
+            
+            //Remove parenthesis
+            float x = float.Parse(coords[0].Substring(1));
+            float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1));
             displayTouch.showTouch(x,y);
             
         }
@@ -53,7 +55,6 @@ public class UDPReceiver : MonoBehaviour {
             float height = float.Parse(coords[1].Substring(0, coords[1].Length - 1));
             displayTouch.setHeight(height);
             displayTouch.setWidth(width);
-            displayTouch.setAspectRatio();
         }
         
     }
