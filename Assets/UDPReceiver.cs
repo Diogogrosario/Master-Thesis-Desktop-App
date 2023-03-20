@@ -2,7 +2,8 @@ using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
 
-public class UDPReceiver : MonoBehaviour {
+public class UDPReceiver : MonoBehaviour
+{
     // Server code (running on desktop)
     private UdpClient udpClient;
     private IPEndPoint localEndPoint;
@@ -10,7 +11,7 @@ public class UDPReceiver : MonoBehaviour {
     [SerializeField] private int port;
 
     private DisplayTouch displayTouch;
-    
+
     void Start()
     {
         // Initialize the UDP client and set the local endpoint to the desktop app's address and port
@@ -50,34 +51,24 @@ public class UDPReceiver : MonoBehaviour {
         {
             for (int i = 0; i < splitMessage.Length; i++)
             {
-                int id = 0;
-                if (i == 0) // "ID:id"
+                string[] idSplit = splitMessage[0].Split(':');
+                int id = int.Parse(idSplit[1]);
+                string[] touchData = splitMessage[1].Split('-');
+                if (touchData[0] == "Begin" || touchData[0] == "Moved")
                 {
-                    string[] idSplit = splitMessage[i].Split(':');
-                    id = int.Parse(idSplit[1]);
-                } 
-                else if (i == 1) // Begin-(12,12)
+                    string[] coords = touchData[1].Split(',');
+                    Debug.Log(coords[0]);
+                    Debug.Log(coords[1]);
+                    //Remove parenthesis
+                    float x = float.Parse(coords[0].Substring(1).Replace('.', ','));
+                    float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1).Replace('.', ','));
+                    displayTouch.showTouch(id, x, y);
+                }
+                else if (touchData[0] == "End")
                 {
-                    string[] touchData = splitMessage[i].Split('-');
-                    if (touchData[0] == "Begin" || touchData[0] == "Moved")
-                    {
-                        string[] coords = touchData[1].Split(',');
-                        Debug.Log(coords[0]);
-                        Debug.Log(coords[1]);
-                        //Remove parenthesis
-                        float x = float.Parse(coords[0].Substring(1).Replace('.',','));
-                        float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1).Replace('.',','));
-                        displayTouch.showTouch(id,x,y);
-                    }
-                    else if (touchData[0] == "End")
-                    {
-                        displayTouch.removeTouch(id);
-                    }
-                
+                    displayTouch.removeTouch(id);
                 }
             }
-    
         }
-        
     }
 }
