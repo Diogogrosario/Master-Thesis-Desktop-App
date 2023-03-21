@@ -46,7 +46,8 @@ public class DisplayTouch : MonoBehaviour
             Vector3 localScale = transform.localScale;
             float xTransform = localScale.x * x / width - localScale.x / 2;
             float yTransform = localScale.y * y / height - localScale.y / 2;
-            dot.transform.position = new Vector3(0f, 0f, 0f); //Reset position before translating
+            dot.transform.localPosition = new Vector3(0f,0f,0f); //Reset position before translating
+            dot.transform.localRotation = Quaternion.Euler(0,0,0);
             dot.transform.Translate(xTransform, yTransform, 0.0f);
             dot.GetComponent<Renderer>().material.color = _colors[id];
             touches[id] = dot;
@@ -57,7 +58,8 @@ public class DisplayTouch : MonoBehaviour
             Vector3 localScale = transform.localScale;
             float xTransform = localScale.x * x / width - localScale.x / 2;
             float yTransform = localScale.y * y / height - localScale.y / 2;
-            touches[id].transform.position = new Vector3(0f, 0f, 0f); //Reset position before translating
+            touches[id].transform.localPosition = new Vector3(0f,0f,0f); //Reset position before translating
+            touches[id].transform.localRotation = Quaternion.Euler(0,0,0);
             touches[id].transform.Translate(xTransform, yTransform, 0.0f);
         }
     }

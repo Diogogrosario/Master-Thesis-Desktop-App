@@ -9,10 +9,6 @@ public class HandTrackingData : MonoBehaviour
     
     private void Update()
     {
-        Hand _leftHand = Hands.Left;
-        Hand _rightHand = Hands.Right;
-        Hand _prioritisedHand = Hands.Left ?? Hands.Right;
-        Hand _specificHand = Hands.Get(Chirality.Left);
         List<Hand> _allHands = Hands.Provider.CurrentFrame.Hands;
 
         foreach (Hand _hand in _allHands)

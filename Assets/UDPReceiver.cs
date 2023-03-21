@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
@@ -37,13 +38,13 @@ public class UDPReceiver : MonoBehaviour
     void ParseMessage(string message)
     {
         string[] splitMessage = message.Split(';');
-        if (splitMessage.Length == 1) // If message has size 1 then its just starting screen size
+        if (splitMessage.Length == 1) // If message has  size 1 then its just starting screen size
         {
             //Get only coords after : and then split by ,
             string[] coords = splitMessage[0].Split(':')[1].Split(',');
             //Remove parenthesis 
-            float width = float.Parse(coords[0].Substring(1));
-            float height = float.Parse(coords[1].Substring(0, coords[1].Length - 1));
+            float width = float.Parse(coords[0].Substring(1),CultureInfo.InvariantCulture);
+            float height = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
             displayTouch.setHeight(height);
             displayTouch.setWidth(width);
         }
@@ -57,11 +58,9 @@ public class UDPReceiver : MonoBehaviour
                 if (touchData[0] == "Begin" || touchData[0] == "Moved")
                 {
                     string[] coords = touchData[1].Split(',');
-                    Debug.Log(coords[0]);
-                    Debug.Log(coords[1]);
                     //Remove parenthesis
-                    float x = float.Parse(coords[0].Substring(1).Replace('.', ','));
-                    float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1).Replace('.', ','));
+                    float x = float.Parse(coords[0].Substring(1),CultureInfo.InvariantCulture);
+                    float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
                     displayTouch.showTouch(id, x, y);
                 }
                 else if (touchData[0] == "End")
