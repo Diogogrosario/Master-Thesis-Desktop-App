@@ -9,11 +9,13 @@ public class HandTrackingData : MonoBehaviour
     public LeapProvider leapProvider;
 
     private GameObject dot;
+    private GameObject HMDPosition;
 
     private void Start()
     {
         dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        HMDPosition = GameObject.Find("VRCamera");
     }
 
     private void Update()
@@ -35,10 +37,9 @@ public class HandTrackingData : MonoBehaviour
     private void ProjectOnMobile(Vector3 thumbTipPosition)
     {
         Transform mobilePhonePlane = GameObject.Find("MobileDevice").transform;
-        var up = mobilePhonePlane.up;
         
+        var up = mobilePhonePlane.forward;
         Vector3 targetPos = Vector3.ProjectOnPlane(thumbTipPosition, up) + Vector3.Dot(mobilePhonePlane.position, up) * up;
-        Debug.Log(targetPos);
 
         dot.transform.localPosition = targetPos;
         dot.GetComponent<Renderer>().material.color = Color.red;
