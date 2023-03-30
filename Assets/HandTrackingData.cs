@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,15 @@ using Leap.Unity;
 public class HandTrackingData : MonoBehaviour
 {
     public LeapProvider leapProvider;
-    
+
+    private GameObject dot;
+
+    private void Start()
+    {
+        dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+    }
+
     private void Update()
     {
         List<Hand> _allHands = Hands.Provider.CurrentFrame.Hands;
@@ -15,20 +24,24 @@ public class HandTrackingData : MonoBehaviour
         {
             //Use _hand to Explicitly get the specified fingers from it
             Finger _thumb = _hand.GetThumb();
-            Finger _index = _hand.GetIndex();
-            Finger _middle = _hand.GetMiddle();
-            Finger _ring = _hand.GetRing();
-            Finger _pinky = _hand.GetPinky();
 
             Debug.Log("Start logging, isLeft = " + _hand.IsLeft);
-            Debug.Log(_thumb.TipPosition);
-            Debug.Log(_index.TipPosition);
-            Debug.Log(_middle.TipPosition);
-            Debug.Log(_ring.TipPosition);
-            Debug.Log(_pinky.TipPosition);
+            ProjectOnMobile(_thumb.TipPosition);
 
         }
         
     }
 
+    private void ProjectOnMobile(Vector3 thumbTipPosition)
+    {
+        Transform mobilePhonePlane = GameObject.Find("MobileDevice").transform;
+        var up = mobilePhonePlane.up;
+        
+        Vector3 targetPos = Vector3.ProjectOnPlane(thumbTipPosition, up) + Vector3.Dot(mobilePhonePlane.position, up) * up;
+        Debug.Log(targetPos);
+
+        dot.transform.localPosition = targetPos;
+        dot.GetComponent<Renderer>().material.color = Color.red;
+        
+    }
 }

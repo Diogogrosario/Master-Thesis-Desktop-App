@@ -128,6 +128,11 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 2014920, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
   m_PrefabInstance: {fileID: 1560425982}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &14818583 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 429506, guid: dc06161b6d97feb419f45f03b62e14b9, type: 3}
+  m_PrefabInstance: {fileID: 1560425982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &267103106
 GameObject:
   m_ObjectHideFlags: 0
@@ -262,7 +267,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694870280}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4984b6ac317f83e4faaf29612e498039, type: 3}
   m_Name: 
@@ -496,6 +501,14 @@ PrefabInstance:
       propertyPath: _mainCamera
       value: 
       objectReference: {fileID: 11028718}
+    - target: {fileID: 3557434566810426996, guid: 15d3b5cf5cea75344a4482323bc124a8, type: 3}
+      propertyPath: _deviceOrigin
+      value: 
+      objectReference: {fileID: 14818583}
+    - target: {fileID: 3557434566810426996, guid: 15d3b5cf5cea75344a4482323bc124a8, type: 3}
+      propertyPath: _deviceOffsetMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3557434566810426997, guid: 15d3b5cf5cea75344a4482323bc124a8, type: 3}
       propertyPath: m_Name
       value: Service Provider (XR)
