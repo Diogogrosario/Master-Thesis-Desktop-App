@@ -13,8 +13,7 @@ public class HandTrackingData : MonoBehaviour
 
     private void Start()
     {
-        dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        dot = GameObject.Find("Projection");
         HMDPosition = GameObject.Find("VRCamera");
     }
 
@@ -27,7 +26,6 @@ public class HandTrackingData : MonoBehaviour
             //Use _hand to Explicitly get the specified fingers from it
             Finger _thumb = _hand.GetThumb();
 
-            Debug.Log("Start logging, isLeft = " + _hand.IsLeft);
             ProjectOnMobile(_thumb.TipPosition);
 
         }
