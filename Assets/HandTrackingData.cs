@@ -8,13 +8,13 @@ public class HandTrackingData : MonoBehaviour
 {
     public LeapProvider leapProvider;
 
-    private GameObject dot;
-    private GameObject HMDPosition;
+    private GameObject LeftHandProjection;
+    private GameObject RightHandProjection;
 
     private void Start()
     {
-        dot = GameObject.Find("Projection");
-        HMDPosition = GameObject.Find("VRCamera");
+        LeftHandProjection = GameObject.Find("LeftHandProjection");
+        RightHandProjection = GameObject.Find("RightHandProjection");
     }
 
     private void Update()
@@ -26,21 +26,29 @@ public class HandTrackingData : MonoBehaviour
             //Use _hand to Explicitly get the specified fingers from it
             Finger _thumb = _hand.GetThumb();
 
-            ProjectOnMobile(_thumb.TipPosition);
+            ProjectOnMobile(_hand.IsLeft,_thumb.TipPosition);
 
         }
         
     }
 
-    private void ProjectOnMobile(Vector3 thumbTipPosition)
+    private void ProjectOnMobile(bool isLeft,Vector3 thumbTipPosition)
     {
         Transform mobilePhonePlane = GameObject.Find("MobileDevice").transform;
         
         var up = mobilePhonePlane.forward;
         Vector3 targetPos = Vector3.ProjectOnPlane(thumbTipPosition, up) + Vector3.Dot(mobilePhonePlane.position, up) * up;
 
-        dot.transform.localPosition = targetPos;
-        dot.GetComponent<Renderer>().material.color = Color.red;
-        
+        if (isLeft)
+        {
+            LeftHandProjection.transform.localPosition = targetPos;
+            LeftHandProjection.GetComponent<Renderer>().material.color = Color.red;
+        }
+        else
+        {
+            RightHandProjection.transform.localPosition = targetPos;
+            RightHandProjection.GetComponent<Renderer>().material.color = Color.blue;
+        }
+
     }
 }
