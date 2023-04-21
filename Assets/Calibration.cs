@@ -24,6 +24,8 @@ public class Calibration : MonoBehaviour
     private GameObject peak2;
     private GameObject peak3;
     
+    [SerializeField] private Transform VrCamera;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -52,8 +54,12 @@ public class Calibration : MonoBehaviour
             Debug.Log(Offset3);
             Vector3 calibrationOffset = (Offset1 + Offset2 + Offset3) / 3;
             Debug.Log((Offset1+Offset2+Offset3)/3);
-            GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetYAxis = calibrationOffset.y;
-            GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetZAxis = calibrationOffset.z;
+            
+            
+            float offsetY = Vector3.Project(calibrationOffset, VrCamera.up).magnitude;
+            float offsetZ = Vector3.Project(calibrationOffset, VrCamera.forward).magnitude;
+            GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetYAxis += offsetY;
+            GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetZAxis += offsetZ;
             calibrated = true;
         }
         
