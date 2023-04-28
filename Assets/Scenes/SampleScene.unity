@@ -525,7 +525,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694870280}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4984b6ac317f83e4faaf29612e498039, type: 3}
   m_Name: 
@@ -1826,8 +1826,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a79b01b079ed28b479bbd6291e6fab5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rows: 3
-  columns: 3
+  rows: 9
+  columns: 4
+  gridCircleTexture: {fileID: 2800000, guid: b58b3fd9737707d42b4e395bd66f6c0d, type: 3}
+  gridTexture: {fileID: 2800000, guid: 8450e1a97a888a144bff1f7ab54debab, type: 3}
+  Xoffset: 0.02
+  Yoffset: 0.04
 --- !u!1 &1373221665
 GameObject:
   m_ObjectHideFlags: 0

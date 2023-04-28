@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TouchScreen
   - Thumb
+  - Grid
   layers:
   - Default
   - TransparentFX
