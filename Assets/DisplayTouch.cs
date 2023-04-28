@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class DisplayTouch : MonoBehaviour
 {
-    private float width;
-    private float height;
+    public float width;
+    public float height;
     private List<GameObject> touches = new List<GameObject>();
     private List<Color> _colors = new List<Color>();
 

@@ -2,6 +2,7 @@ using System.Globalization;
 using UnityEngine;
 using System.Net;
 using System.Net.Sockets;
+using Unity.VisualScripting;
 
 public class UDPReceiver : MonoBehaviour
 {
@@ -10,15 +11,20 @@ public class UDPReceiver : MonoBehaviour
     private IPEndPoint localEndPoint;
     [SerializeField] private string ip;
     [SerializeField] private int port;
-
+    private bool calibrated = false;
+    private int counter = 0;
     private DisplayTouch displayTouch;
-
+    private Calibration calibration;
+    [SerializeField] private int nTouches;
+    
     void Start()
     {
         // Initialize the UDP client and set the local endpoint to the desktop app's address and port
         localEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
         udpClient = new UdpClient(localEndPoint);
         displayTouch = GameObject.Find("TouchScreen").GetComponent<DisplayTouch>();
+        calibration = GameObject.Find("TouchScreen").GetComponent<Calibration>();
+        
 
         Debug.Log("Server started");
     }
@@ -32,6 +38,12 @@ public class UDPReceiver : MonoBehaviour
             string message = System.Text.Encoding.UTF8.GetString(data);
             Debug.Log("Received message: " + message);
             ParseMessage(message);
+        }
+
+        if (counter >= nTouches && !calibrated)
+        {
+            calibrated = true;
+            calibration.calibrate();
         }
     }
 
@@ -50,8 +62,6 @@ public class UDPReceiver : MonoBehaviour
         }
         else //Its a touch message -- ID:id;Begin:(12,12)
         {
-            for (int i = 0; i < splitMessage.Length; i++)
-            {
                 string[] idSplit = splitMessage[0].Split(':');
                 int id = int.Parse(idSplit[1]);
                 string[] touchData = splitMessage[1].Split('-');
@@ -62,12 +72,16 @@ public class UDPReceiver : MonoBehaviour
                     float x = float.Parse(coords[0].Substring(1),CultureInfo.InvariantCulture);
                     float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
                     displayTouch.showTouch(id, x, y);
+                    if (touchData[0] == "Begin")
+                    {
+                        calibration.saveCoords(displayTouch.width, displayTouch.height, x, y);
+                        counter++;
+                    }
                 }
                 else if (touchData[0] == "End")
                 {
                     displayTouch.removeTouch(id);
                 }
-            }
         }
     }
 }

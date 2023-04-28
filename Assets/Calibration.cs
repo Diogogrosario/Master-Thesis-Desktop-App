@@ -1,90 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using Leap;
 using Leap.Unity;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class Calibration : MonoBehaviour
 {
-    //Assume tracker is placed on a flat horizontal surface
-    //We will assume tracker is in this position   -
-    //                                           -   -
-    //only the right thumb will touch each "peak" in clockwise order 1-2-3 starting from the top
-    //Coordinates from top to bottom -> z axis
-    //Coordinates from left to right -> x axis
-
-    //Offsets between hand and tracker position to calculate the offset after
-    private Vector3 Offset1 = new Vector3(0, 0, 0);
-    private Vector3 Offset2 = new Vector3(0, 0, 0);
-    private Vector3 Offset3 = new Vector3(0, 0, 0);
-    
-    private bool calibrated = false;
-
-    private GameObject peak1;
-    private GameObject peak2;
-    private GameObject peak3;
     
     [SerializeField] private Transform VrCamera;
+
+    private List<Vector3> offsets = new List<Vector3>();
     
 
     // Start is called before the first frame update
     void Start()
     {
-        peak1 = GameObject.Find("Peak1");
-        peak2 = GameObject.Find("Peak2");
-        peak3 = GameObject.Find("Peak3");
+        
     }
 
     // Update is called once per frame
 
     void Update()
     {
-        //Calibrated dont need to do anything
-        if (calibrated)
-        {
-            return;
-        }
+        
+    }
 
-        if (Offset1 != Vector3.zero && Offset2 != Vector3.zero && Offset3 != Vector3.zero)
-        {
-            
-            //Calculate average and change the value
-            Debug.Log(Offset1);
-            Debug.Log(Offset2);
-            Debug.Log(Offset3);
-            Vector3 calibrationOffset = (Offset1 + Offset2 + Offset3) / 3;
-            Debug.Log((Offset1+Offset2+Offset3)/3);
-            
-            
-            float offsetY = Vector3.Project(calibrationOffset, VrCamera.up).magnitude;
-            float offsetZ = Vector3.Project(calibrationOffset, VrCamera.forward).magnitude;
-            GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetYAxis += offsetY;
-            GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetZAxis += offsetZ;
-            calibrated = true;
-        }
+    public void saveCoords(float width, float height, float x, float y)
+    {
+        GameObject dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        dot.transform.parent = transform.parent;
+        dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        dot.GetComponent<Renderer>().enabled = false;
+
+        // Get scale and subtract x/2, y/2 so the "origin" is at bottom left. Then do the 3 rule, scale -> resolution so ? -> touch
+        Vector3 localScale = transform.localScale;
+        float xTransform = localScale.x * x / width - localScale.x / 2;
+        float yTransform = localScale.y * y / height - localScale.y / 2;
+        dot.transform.localPosition = new Vector3(0f,0f,0f); //Reset position before translating
+        dot.transform.localRotation = Quaternion.Euler(0,0,0);
+        dot.transform.Translate(xTransform, yTransform, 0.0f);
         
         Vector3 handPosition = new Vector3(0,0,0);
         GameObject thumb;
         thumb = GameObject.FindWithTag("Thumb");
-        if(thumb != null)
+        if (thumb != null)
             handPosition = thumb.transform.position;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        
+        offsets.Add(dot.transform.position - handPosition);
+    }
+
+    public void calibrate()
+    {
+        Vector3 offsetSum = new Vector3(0,0,0);
+        foreach (Vector3 offset in offsets)
         {
-            Vector3 peak1Position = peak1.transform.position;
-            Offset1 = handPosition - peak1Position;
-            Debug.Log("1 was pressed");
+            offsetSum += offset;
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Vector3 peak2Position = peak2.transform.position;
-            Offset2 = handPosition - peak2Position;
-            Debug.Log("2 was pressed");
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Vector3 peak3Position = peak3.transform.position;
-            Offset3 = handPosition - peak3Position;
-            Debug.Log("3 was pressed");
-        }
+        
+        var yProject = Vector3.Project(offsetSum/offsets.Count, VrCamera.up);
+        var zProject = Vector3.Project(offsetSum/offsets.Count, VrCamera.forward);
+        var offsetY = yProject.magnitude * (Vector3.Dot(yProject, VrCamera.up) > 0 ? 1 : -1);
+        var offsetZ = zProject.magnitude * (Vector3.Dot(zProject, VrCamera.forward) > 0 ? 1 : -1);
+        GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetYAxis += offsetY;
+        GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetZAxis += offsetZ;
+
     }
 }
