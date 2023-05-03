@@ -10,7 +10,7 @@ public class GridGenerator : MonoBehaviour
 
     [SerializeField] private float columns;
 
-    [SerializeField] private Texture2D gridCircleTexture;
+    public float gridSize;
 
     [SerializeField] private Texture2D gridTexture;
     // Start is called before the first frame update
@@ -18,11 +18,14 @@ public class GridGenerator : MonoBehaviour
     private float ScreenHeight;
     private float ScreenWidth;
     [SerializeField] private float Xoffset;
-    [SerializeField] private float Yoffset = 0.02f;
+    [SerializeField] private float Yoffset;
+
+    private GameObject game;
 
     void Start()
     {
         int counter = 0;
+        gridSize = rows * columns;
 
         ScreenWidth = transform.parent.gameObject.GetComponent<MeshRenderer>().bounds.size.x - Xoffset;
         ScreenHeight = transform.parent.gameObject.GetComponent<MeshRenderer>().bounds.size.y - Yoffset;
@@ -51,7 +54,9 @@ public class GridGenerator : MonoBehaviour
                 cell.transform.localPosition = new Vector3(x, y, -0.05f);
             }
         }
-
+        
+        game = GameObject.Find("Game");
+        game.GetComponent<Game>().startGame();
     }
 
     // Update is called once per frame
