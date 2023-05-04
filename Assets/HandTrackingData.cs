@@ -42,12 +42,12 @@ public class HandTrackingData : MonoBehaviour
         if (isLeft)
         {
             LeftHandProjection.transform.localPosition = targetPos;
-            LeftHandProjection.GetComponent<Renderer>().material.color = Color.red;
+            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(239, 41, 41);
         }
         else
         {
             RightHandProjection.transform.localPosition = targetPos;
-            RightHandProjection.GetComponent<Renderer>().material.color = Color.blue;
+            RightHandProjection.GetComponent<Renderer>().material.color = new Color(114, 159, 207);
         }
 
     }
