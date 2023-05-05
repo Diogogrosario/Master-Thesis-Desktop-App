@@ -40,12 +40,12 @@ public class HandTrackingData : MonoBehaviour
         //lost track, change color
         if (!left)
         {
-            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(136, 138, 133);
+            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(136/255f, 138/255f, 133/255f);
         }
 
         if (!right)
         {
-            RightHandProjection.GetComponent<Renderer>().material.color = new Color(136, 138, 133);
+            RightHandProjection.GetComponent<Renderer>().material.color = new Color(136/255f, 138/255f, 133/255f);
         }
     }
 
@@ -59,12 +59,12 @@ public class HandTrackingData : MonoBehaviour
         if (isLeft)
         {
             LeftHandProjection.transform.localPosition = targetPos;
-            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(239, 41, 41);
+            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(239/255f, 41/255f, 41/255f);
         }
         else
         {
             RightHandProjection.transform.localPosition = targetPos;
-            RightHandProjection.GetComponent<Renderer>().material.color = new Color(114, 159, 207);
+            RightHandProjection.GetComponent<Renderer>().material.color = new Color(114/255f, 159/255f, 207/255f);
         }
 
     }

@@ -38,7 +38,7 @@ public class UDPReceiver : MonoBehaviour
         {
             byte[] data = udpClient.Receive(ref localEndPoint);
             string message = System.Text.Encoding.UTF8.GetString(data);
-            Debug.Log("Received message: " + message);
+            //Debug.Log("Received message: " + message);
             ParseMessage(message);
         }
 
@@ -73,7 +73,7 @@ public class UDPReceiver : MonoBehaviour
                     //Remove parenthesis
                     float x = float.Parse(coords[0].Substring(1),CultureInfo.InvariantCulture);
                     float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
-                    displayTouch.showTouch(id, x, y);
+                    //displayTouch.showTouch(id, x, y);
 
                     if (touchData[0] == "Begin")
                     {
@@ -90,7 +90,7 @@ public class UDPReceiver : MonoBehaviour
                 }
                 else if (touchData[0] == "End")
                 {
-                    displayTouch.removeTouch(id);
+                    //displayTouch.removeTouch(id);
                 }
         }
     }

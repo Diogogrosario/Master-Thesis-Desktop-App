@@ -16,7 +16,7 @@ public class Game : MonoBehaviour
     private float multiTouchTargetCooldown = 0;
     
     private int nTargets = 0;
-    private int maxTargets = 2;
+    [SerializeField] private int maxTargets = 2;
     
     private float gridSize;
     
@@ -29,6 +29,9 @@ public class Game : MonoBehaviour
     private GameObject LeftHandProjection;
     private GameObject RightHandProjection;
 
+    private Queue<KeyValuePair<float, float>> touchQueue = new Queue<KeyValuePair<float, float>>();
+    private Dictionary<int, bool> activeCells = new Dictionary<int, bool>();
+
     private void Start()
     {
         LeftHandProjection = GameObject.Find("LeftHandProjection");
@@ -40,6 +43,28 @@ public class Game : MonoBehaviour
     {
         if (gameInit)
         {
+            //use x,y
+            while (touchQueue.Count != 0)
+            {
+                var coords = touchQueue.Dequeue();
+                var x = coords.Key;
+                var y = coords.Value;
+                var collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                Debug.Log("Projection colliding with cell -> " + collidingCell);
+                if (collidingCell == -1)
+                {
+                    return;
+                }
+                if (activeCells[collidingCell] == false)
+                {
+                    return;
+                }
+                GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
+                Debug.Log("Collided, will reduce targets");
+                activeCells[collidingCell] = false;
+                nTargets--;
+                multiTouchTargetCooldown = 0;
+            }
 
             //Reduce time
             timeLeft -= Time.deltaTime;
@@ -56,7 +81,7 @@ public class Game : MonoBehaviour
             if (nTargets < maxTargets && multiTouchTargetCooldown <= 0)
             {
                 generateTarget();
-                
+                Debug.Log(multiTouchTargetCooldown);
                 //generated multitouch -> reset
                 if (multiTouchTargetCooldown < 0)
                 {
@@ -86,8 +111,10 @@ public class Game : MonoBehaviour
         }
         GameObject.Find("Grid" + randomTarget).GetComponent<Renderer>().material.mainTexture = gridCircleTexture;
         lastRandom = randomTarget;
+        activeCells[randomTarget] = true;
         nTargets++;
         Debug.Log("Generating target, n targets = " + nTargets + "; Target value = " + randomTarget);
+        
     }
 
     public void resetTimer()
@@ -99,6 +126,10 @@ public class Game : MonoBehaviour
     {
         resetTimer();
         gridSize = GameObject.Find("GridGenerator").GetComponent<GridGenerator>().gridSize;
+        for (int i = 0; i < gridSize; i++)
+        {
+            activeCells.Add(i,false);
+        }
         gameInit = true;
     }
     
@@ -115,9 +146,7 @@ public class Game : MonoBehaviour
     //Decide if its right projection or left projection used to trigger;
     public void triggerInput(float x, float y)
     {
-        var collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
-        Debug.Log("Projection colliding with cell -> " + collidingCell);
-        GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
-        nTargets--;
+        touchQueue.Enqueue(new KeyValuePair<float, float>(x,y));
     }
 }
+

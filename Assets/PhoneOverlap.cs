@@ -9,6 +9,8 @@ public class PhoneOverlap : MonoBehaviour
     Renderer renderer;
 
     public int currentGridCell = -1;
+    private int previousCell = -1;
+    
     
     void Start()
     {
@@ -30,8 +32,8 @@ public class PhoneOverlap : MonoBehaviour
 
         if (other.tag == "Grid")
         {
-            currentGridCell = int.Parse(other.name.Substring(3));
-            Debug.Log(currentGridCell);
+            previousCell = currentGridCell;
+            currentGridCell = int.Parse(other.name.Substring(4));
         }
     }
     
@@ -44,7 +46,16 @@ public class PhoneOverlap : MonoBehaviour
 
         if (other.tag == "Grid")
         {
-            currentGridCell = -1;
+            if (previousCell == currentGridCell)
+            {
+                currentGridCell = -1;
+                previousCell = -1;
+            }
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        
     }
 }

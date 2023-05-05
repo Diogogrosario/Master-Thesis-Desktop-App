@@ -172,8 +172,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c24d9b05863c14abc563ef4890617c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 30
+  gameTime: 40000
   multiTouchCooldown: 0.8
+  maxTargets: 2
   gridCircleTexture: {fileID: 2800000, guid: b58b3fd9737707d42b4e395bd66f6c0d, type: 3}
   gridTexture: {fileID: 2800000, guid: 8450e1a97a888a144bff1f7ab54debab, type: 3}
 --- !u!1 &267103106
@@ -269,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 267103106}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.073, y: 0.159, z: 0.0081}
+  m_LocalScale: {x: 0.0769, y: 0.1641, z: 0.0088}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1341954861}
@@ -334,12 +335,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694870280}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4984b6ac317f83e4faaf29612e498039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ip: 192.168.42.113
+  ip: 192.168.136.32
   port: 9000
   nTouches: 4
 --- !u!4 &694870282
@@ -1511,7 +1512,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1232952927
 MeshRenderer:
@@ -1687,7 +1688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37c2cf88f7c59f4c8cf5d3812568143, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 4
+  index: 2
   origin: {fileID: 0}
 --- !u!4 &1373221667
 Transform:
@@ -1958,7 +1959,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1649387650
 MeshRenderer:
