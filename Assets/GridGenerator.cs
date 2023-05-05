@@ -56,6 +56,8 @@ public class GridGenerator : MonoBehaviour
         }
         
         game = GameObject.Find("Game");
+        
+        //Need to move this to menu
         game.GetComponent<Game>().startGame();
     }
 

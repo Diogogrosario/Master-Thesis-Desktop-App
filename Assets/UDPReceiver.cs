@@ -16,6 +16,7 @@ public class UDPReceiver : MonoBehaviour
     private DisplayTouch displayTouch;
     private Calibration calibration;
     [SerializeField] private int nTouches;
+    private Game game;
     
     void Start()
     {
@@ -24,6 +25,7 @@ public class UDPReceiver : MonoBehaviour
         udpClient = new UdpClient(localEndPoint);
         displayTouch = GameObject.Find("TouchScreen").GetComponent<DisplayTouch>();
         calibration = GameObject.Find("TouchScreen").GetComponent<Calibration>();
+        game = GameObject.Find("Game").GetComponent<Game>();
         
 
         Debug.Log("Server started");
@@ -72,8 +74,16 @@ public class UDPReceiver : MonoBehaviour
                     float x = float.Parse(coords[0].Substring(1),CultureInfo.InvariantCulture);
                     float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
                     displayTouch.showTouch(id, x, y);
+
                     if (touchData[0] == "Begin")
                     {
+                        //inputs for game with projections
+                        if (game.hasStarted() && calibrated)
+                        {
+                            game.triggerInput(x,y);
+                        }
+                        
+                        //calibrate
                         calibration.saveCoords(displayTouch.width, displayTouch.height, x, y);
                         counter++;
                     }

@@ -21,14 +21,18 @@ public class Game : MonoBehaviour
     private float gridSize;
     
     [SerializeField] private Texture2D gridCircleTexture;
+    [SerializeField] private Texture2D gridTexture;
 
     private int lastRandom = -1;
     
     
-    // Start is called before the first frame update
-    void Start()
+    private GameObject LeftHandProjection;
+    private GameObject RightHandProjection;
+
+    private void Start()
     {
-        
+        LeftHandProjection = GameObject.Find("LeftHandProjection");
+        RightHandProjection = GameObject.Find("RightHandProjection");
     }
 
     // Update is called once per frame
@@ -80,11 +84,10 @@ public class Game : MonoBehaviour
         {
             randomTarget = (int)Random.Range(0, gridSize - 1);
         }
-        Debug.Log(randomTarget);
         GameObject.Find("Grid" + randomTarget).GetComponent<Renderer>().material.mainTexture = gridCircleTexture;
         lastRandom = randomTarget;
         nTargets++;
-        //Debug.Log("Generating target, n targets = " + nTargets);
+        Debug.Log("Generating target, n targets = " + nTargets + "; Target value = " + randomTarget);
     }
 
     public void resetTimer()
@@ -102,5 +105,19 @@ public class Game : MonoBehaviour
     private void endGame()
     {
         gameInit = false;
+    }
+
+    public bool hasStarted()
+    {
+        return gameInit;
+    }
+
+    //Decide if its right projection or left projection used to trigger;
+    public void triggerInput(float x, float y)
+    {
+        var collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+        Debug.Log("Projection colliding with cell -> " + collidingCell);
+        GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
+        nTargets--;
     }
 }

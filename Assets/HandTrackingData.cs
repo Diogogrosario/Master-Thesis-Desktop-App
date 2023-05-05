@@ -20,16 +20,33 @@ public class HandTrackingData : MonoBehaviour
     private void Update()
     {
         List<Hand> _allHands = Hands.Provider.CurrentFrame.Hands;
-
+        var left = false;
+        var right = false;
+        
         foreach (Hand _hand in _allHands)
         {
             //Use _hand to Explicitly get the specified fingers from it
             Finger _thumb = _hand.GetThumb();
-
             ProjectOnMobile(_hand.IsLeft,_thumb.TipPosition);
-
+            if (_hand.IsLeft)
+            {
+                left = true;
+            }
+            else
+            {
+                right = true;
+            }
         }
-        
+        //lost track, change color
+        if (!left)
+        {
+            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(136, 138, 133);
+        }
+
+        if (!right)
+        {
+            RightHandProjection.GetComponent<Renderer>().material.color = new Color(136, 138, 133);
+        }
     }
 
     private void ProjectOnMobile(bool isLeft,Vector3 thumbTipPosition)

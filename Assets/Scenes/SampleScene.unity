@@ -175,6 +175,7 @@ MonoBehaviour:
   gameTime: 30
   multiTouchCooldown: 0.8
   gridCircleTexture: {fileID: 2800000, guid: b58b3fd9737707d42b4e395bd66f6c0d, type: 3}
+  gridTexture: {fileID: 2800000, guid: 8450e1a97a888a144bff1f7ab54debab, type: 3}
 --- !u!1 &267103106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1589,6 +1590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819f93bc9849c7f47996ee655bd8dee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGridCell: -1
 --- !u!54 &1232952931
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1944,6 +1946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819f93bc9849c7f47996ee655bd8dee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentGridCell: -1
 --- !u!135 &1649387649
 SphereCollider:
   m_ObjectHideFlags: 0

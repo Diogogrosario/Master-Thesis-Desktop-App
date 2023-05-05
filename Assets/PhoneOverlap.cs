@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ public class PhoneOverlap : MonoBehaviour
 {
     // Start is called before the first frame update
     Renderer renderer;
+
+    public int currentGridCell = -1;
     
     void Start()
     {
@@ -24,6 +27,12 @@ public class PhoneOverlap : MonoBehaviour
         {
             renderer.enabled = true;
         }
+
+        if (other.tag == "Grid")
+        {
+            currentGridCell = int.Parse(other.name.Substring(3));
+            Debug.Log(currentGridCell);
+        }
     }
     
     private void OnTriggerExit(Collider other)
@@ -31,6 +40,11 @@ public class PhoneOverlap : MonoBehaviour
         if (other.tag == "TouchScreen")
         {
             renderer.enabled = false;
+        }
+
+        if (other.tag == "Grid")
+        {
+            currentGridCell = -1;
         }
     }
 }
