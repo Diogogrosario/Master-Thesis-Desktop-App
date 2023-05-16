@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
     private GameObject LeftHandProjection;
     private GameObject RightHandProjection;
 
-    private Queue<KeyValuePair<float, float>> touchQueue = new Queue<KeyValuePair<float, float>>();
+    private Queue<Vector3> touchQueue = new Queue<Vector3>();
     private Dictionary<int, bool> activeCells = new Dictionary<int, bool>();
 
     private void Start()
@@ -47,17 +47,24 @@ public class Game : MonoBehaviour
             while (touchQueue.Count != 0)
             {
                 var coords = touchQueue.Dequeue();
-                var x = coords.Key;
-                var y = coords.Value;
-                var collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                var collidingCell = -1;
+                if (touchIsCloserToLeft(coords))
+                {
+                    collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                }
+                else
+                {
+                    collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                }
+                
                 Debug.Log("Projection colliding with cell -> " + collidingCell);
                 if (collidingCell == -1)
                 {
-                    return;
+                    continue;
                 }
                 if (activeCells[collidingCell] == false)
                 {
-                    return;
+                    continue;
                 }
                 GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
                 Debug.Log("Collided, will reduce targets");
@@ -81,7 +88,7 @@ public class Game : MonoBehaviour
             if (nTargets < maxTargets && multiTouchTargetCooldown <= 0)
             {
                 generateTarget();
-                Debug.Log(multiTouchTargetCooldown);
+                //Debug.Log(multiTouchTargetCooldown);
                 //generated multitouch -> reset
                 if (multiTouchTargetCooldown < 0)
                 {
@@ -100,7 +107,17 @@ public class Game : MonoBehaviour
             endGame();
         }
     }
-    
+
+    private bool touchIsCloserToLeft(Vector3 coords)
+    {
+        float leftDistance = Vector3.Distance(coords, LeftHandProjection.transform.position);
+        float rightDistance = Vector3.Distance(coords, RightHandProjection.transform.position);
+        Debug.Log("left distance: " + leftDistance);
+        Debug.Log("right distance: " + rightDistance);
+        return leftDistance < rightDistance;
+
+    }
+
     //need to implement force not same target
     private void generateTarget()
     {
@@ -144,9 +161,9 @@ public class Game : MonoBehaviour
     }
 
     //Decide if its right projection or left projection used to trigger;
-    public void triggerInput(float x, float y)
+    public void triggerInput(Vector3 touchPositionInSpace)
     {
-        touchQueue.Enqueue(new KeyValuePair<float, float>(x,y));
+        touchQueue.Enqueue(touchPositionInSpace);
     }
 }
 

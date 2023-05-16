@@ -55,15 +55,16 @@ public class HandTrackingData : MonoBehaviour
         
         var up = mobilePhonePlane.forward;
         Vector3 targetPos = Vector3.ProjectOnPlane(thumbTipPosition, up) + Vector3.Dot(mobilePhonePlane.position, up) * up;
+        Vector3 upShift = -up * 0.0025f;
 
         if (isLeft)
         {
-            LeftHandProjection.transform.localPosition = targetPos;
+            LeftHandProjection.transform.localPosition = targetPos + upShift;
             LeftHandProjection.GetComponent<Renderer>().material.color = new Color(239/255f, 41/255f, 41/255f);
         }
         else
         {
-            RightHandProjection.transform.localPosition = targetPos;
+            RightHandProjection.transform.localPosition = targetPos + upShift;
             RightHandProjection.GetComponent<Renderer>().material.color = new Color(114/255f, 159/255f, 207/255f);
         }
 

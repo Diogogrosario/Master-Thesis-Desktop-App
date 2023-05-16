@@ -77,15 +77,18 @@ public class UDPReceiver : MonoBehaviour
 
                     if (touchData[0] == "Begin")
                     {
+                        
+                        //calibrate
+                        Vector3 touchPositionInSpace = calibration.saveCoords(displayTouch.width, displayTouch.height, x, y);
+                        counter++;
+                        
                         //inputs for game with projections
                         if (game.hasStarted() && calibrated)
                         {
-                            game.triggerInput(x,y);
+                            game.triggerInput(touchPositionInSpace);
                         }
                         
-                        //calibrate
-                        calibration.saveCoords(displayTouch.width, displayTouch.height, x, y);
-                        counter++;
+                        
                     }
                 }
                 else if (touchData[0] == "End")

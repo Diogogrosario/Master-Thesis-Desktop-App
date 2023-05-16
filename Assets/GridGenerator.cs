@@ -51,7 +51,7 @@ public class GridGenerator : MonoBehaviour
                 cell.GetComponent<Renderer>().material.mainTexture = gridTexture;
                 cell.transform.parent = transform.parent;
                 cell.transform.localScale = new Vector3((1-Xpercentage)/columns, (1-Ypercentage)/rows, 1);
-                cell.transform.localPosition = new Vector3(x, y, -0.05f);
+                cell.transform.localPosition = new Vector3(x, y, -0.075f);
             }
         }
         

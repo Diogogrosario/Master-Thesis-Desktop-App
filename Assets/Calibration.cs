@@ -28,7 +28,7 @@ public class Calibration : MonoBehaviour
         
     }
 
-    public void saveCoords(float width, float height, float x, float y)
+    public Vector3 saveCoords(float width, float height, float x, float y)
     {
         GameObject dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         dot.transform.parent = transform.parent;
@@ -50,6 +50,7 @@ public class Calibration : MonoBehaviour
             handPosition = thumb.transform.position;
         
         offsets.Add(dot.transform.position - handPosition);
+        return dot.transform.position;
     }
 
     public void calibrate()
