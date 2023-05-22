@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.Rendering;
@@ -6,9 +7,9 @@ using UnityEngine;
 public class GridGenerator : MonoBehaviour
 {
 
-    [SerializeField] private float rows;
-
-    [SerializeField] private float columns;
+    private float rows;
+    private float columns;
+    public int task;
 
     public float gridSize;
 
@@ -21,9 +22,46 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private float Yoffset;
 
     private GameObject game;
+    
 
-    void Start()
+    void OnEnable()
     {
+        Debug.Log("I was enabled, task = " + task);
+        if (task == 0)
+        {
+            this.enabled = false;
+            return;
+        }
+        if (task == 1)
+        {
+            rows = 6;
+            columns = 4;
+        }
+        else if (task == 2)
+        {
+            rows = 9;
+            columns = 6;
+        }
+        else if (task == 3)
+        {
+            rows = 16;
+            columns = 9;
+        }
+        else if (task == 4)
+        {
+            rows = 6;
+            columns = 4;
+        }
+        else if (task == 5)
+        {
+            rows = 9;
+            columns = 6;
+        }
+        else if (task == 6)
+        {
+            rows = 16;
+            columns = 9;
+        }
         int counter = 0;
         gridSize = rows * columns;
 

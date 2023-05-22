@@ -152,7 +152,9 @@ public class Game : MonoBehaviour
     
     private void endGame()
     {
+        //Destroy all grids;
         gameInit = false;
+        GameObject.Find("GridGenerator").GetComponent<GridGenerator>().enabled = false;
     }
 
     public bool hasStarted()
