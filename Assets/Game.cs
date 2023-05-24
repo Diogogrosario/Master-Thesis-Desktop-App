@@ -66,7 +66,8 @@ public class Game : MonoBehaviour
                 {
                     continue;
                 }
-                GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
+                var cell = GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
+                cell.GetComponent<TimeToClick>().endTimer();
                 Debug.Log("Collided, will reduce targets");
                 activeCells[collidingCell] = false;
                 nTargets--;
@@ -126,7 +127,10 @@ public class Game : MonoBehaviour
         {
             randomTarget = (int)Random.Range(0, gridSize - 1);
         }
-        GameObject.Find("Grid" + randomTarget).GetComponent<Renderer>().material.mainTexture = gridCircleTexture;
+
+        var cell = GameObject.Find("Grid" + randomTarget);
+        cell.GetComponent<Renderer>().material.mainTexture = gridCircleTexture;
+        cell.GetComponent<TimeToClick>().startTimer();
         lastRandom = randomTarget;
         activeCells[randomTarget] = true;
         nTargets++;
@@ -152,7 +156,12 @@ public class Game : MonoBehaviour
     
     private void endGame()
     {
-        //Destroy all grids;
+        for (int i = 0; i < gridSize; i++)
+        {
+            Destroy(GameObject.Find("Grid" + i));
+        }
+
+        activeCells = new Dictionary<int, bool>();
         gameInit = false;
         GameObject.Find("GridGenerator").GetComponent<GridGenerator>().enabled = false;
     }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.Rendering;
 using UnityEngine;
+using Valve.VR;
 
 public class GridGenerator : MonoBehaviour
 {
@@ -16,14 +17,11 @@ public class GridGenerator : MonoBehaviour
     [SerializeField] private Texture2D gridTexture;
     // Start is called before the first frame update
 
-    private float ScreenHeight;
-    private float ScreenWidth;
     [SerializeField] private float Xoffset;
     [SerializeField] private float Yoffset;
 
     private GameObject game;
     
-
     void OnEnable()
     {
         Debug.Log("I was enabled, task = " + task);
@@ -65,15 +63,18 @@ public class GridGenerator : MonoBehaviour
         int counter = 0;
         gridSize = rows * columns;
 
-        ScreenWidth = transform.parent.gameObject.GetComponent<MeshRenderer>().bounds.size.x - Xoffset;
-        ScreenHeight = transform.parent.gameObject.GetComponent<MeshRenderer>().bounds.size.y - Yoffset;
+        
+        var ScreenWidth = transform.parent.localScale.x - Xoffset;
+        var ScreenHeight = transform.parent.localScale.y - Yoffset;
+        var Xpercentage = Xoffset / transform.parent.localScale.x;
+        var Ypercentage = Yoffset / transform.parent.localScale.y;
+        
         float cellWidth = ScreenWidth / columns;
         float cellHeigth = ScreenHeight / rows;
-        float Xpercentage = Xoffset / transform.parent.gameObject.GetComponent<MeshRenderer>().bounds.size.x;
-        float Ypercentage = Yoffset / transform.parent.gameObject.GetComponent<MeshRenderer>().bounds.size.y;
 
         float startX = -cellWidth * (columns - 1) / (2 * transform.parent.localScale.x);
         float startY = -cellHeigth * (rows - 1) / (2 * transform.parent.localScale.y);
+        
 
         for (int row = 0; row < rows; row++)
         {
@@ -87,12 +88,14 @@ public class GridGenerator : MonoBehaviour
                 cell.name = "Grid" + counter;
                 counter++;
                 cell.GetComponent<Renderer>().material.mainTexture = gridTexture;
+                cell.AddComponent<TimeToClick>();
+                cell.transform.rotation = transform.parent.rotation;
                 cell.transform.parent = transform.parent;
                 cell.transform.localScale = new Vector3((1-Xpercentage)/columns, (1-Ypercentage)/rows, 1);
                 cell.transform.localPosition = new Vector3(x, y, -0.075f);
             }
         }
-        
+
         game = GameObject.Find("Game");
         
         //Need to move this to menu
