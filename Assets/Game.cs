@@ -36,7 +36,7 @@ public class Game : MonoBehaviour
 
     private GameObject gridGenerator;
 
-    public TestControl masterScript;
+    private TestControl masterScript;
 
     private void Start()
     {
@@ -77,8 +77,28 @@ public class Game : MonoBehaviour
                     continue;
                 }
                 var cell = GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
-                cell.GetComponent<TimeToClick>().endTimer();
+                
                 Debug.Log("Collided, will reduce targets");
+                var cell1 = -1;
+                var cell2 = -1;
+                foreach (var cellValue in activeCells.Keys)
+                {
+                    if (activeCells[cellValue])
+                    {
+                        if (cell1 == -1)
+                        {
+                            cell1 = cellValue;
+                        }
+
+                        if (cell1 != -1)
+                        {
+                            cell2 = cellValue;
+                        }
+                    }
+                }
+                masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
+                                                  + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Hit," 
+                                                  + cell.GetComponent<TimeToClick>().endTimer() + ",,,");
                 activeCells[collidingCell] = false;
                 nTargets--;
                 multiTouchTargetCooldown = 0;

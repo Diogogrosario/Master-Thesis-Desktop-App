@@ -8,7 +8,7 @@ using UnityEngine;
 public class KeyboardInputs : MonoBehaviour
 {
     private GameObject gridGenerator;
-    public TestControl masterScript;
+    private TestControl masterScript;
     private void Start()
     {
         masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();

@@ -23,10 +23,10 @@ public class TimeToClick : MonoBehaviour
         startTime = DateTime.UtcNow;
     }
 
-    public void endTimer()
+    public TimeSpan endTimer()
     {
         endTime = DateTime.UtcNow;
         System.TimeSpan ts = endTime - startTime;
-        Debug.Log ("Target clicked - time elapsed: " + ts);
+        return ts;
     }
 }

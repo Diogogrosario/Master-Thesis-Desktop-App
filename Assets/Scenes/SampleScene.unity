@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c24d9b05863c14abc563ef4890617c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 2
+  gameTime: 30
   multiTouchCooldown: 0.5
   maxTargets: 2
   gridCircleTexture: {fileID: 2800000, guid: 1fb2a73c66955684db24880b861246ac, type: 3}
@@ -2056,7 +2056,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7542d10743093b04199d66647f8a621f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterScript: {fileID: 0}
 --- !u!4 &1600214799
 Transform:
   m_ObjectHideFlags: 0
