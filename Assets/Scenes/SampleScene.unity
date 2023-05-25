@@ -172,11 +172,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50c24d9b05863c14abc563ef4890617c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameTime: 45
+  gameTime: 2
   multiTouchCooldown: 0.5
   maxTargets: 2
   gridCircleTexture: {fileID: 2800000, guid: 1fb2a73c66955684db24880b861246ac, type: 3}
   gridTexture: {fileID: 2800000, guid: ddfa402c1055f3b4aaa1917a0ede784a, type: 3}
+  masterScript: {fileID: 0}
 --- !u!1 &267103106
 GameObject:
   m_ObjectHideFlags: 0
