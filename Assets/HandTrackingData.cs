@@ -10,11 +10,14 @@ public class HandTrackingData : MonoBehaviour
 
     private GameObject LeftHandProjection;
     private GameObject RightHandProjection;
+    private bool isMobile;
 
     private void Start()
     {
-        LeftHandProjection = GameObject.Find("LeftHandProjection");
-        RightHandProjection = GameObject.Find("RightHandProjection");
+        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        LeftHandProjection = masterScript.leftHandProjection;
+        RightHandProjection = masterScript.rightHandProjection;
+        isMobile = masterScript.isMobile;
     }
 
     private void Update()
@@ -25,9 +28,17 @@ public class HandTrackingData : MonoBehaviour
         
         foreach (Hand _hand in _allHands)
         {
-            //Use _hand to Explicitly get the specified fingers from it
-            Finger _thumb = _hand.GetThumb();
-            ProjectOnMobile(_hand.IsLeft,_thumb.TipPosition);
+            Finger _finger;
+            if (isMobile)
+            {
+                _finger = _hand.GetThumb();
+            }
+            else
+            {
+                _finger = _hand.GetIndex();
+            }
+
+            ProjectOnMobile(_hand.IsLeft,_finger.TipPosition);
             if (_hand.IsLeft)
             {
                 left = true;

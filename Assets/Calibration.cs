@@ -12,13 +12,16 @@ public class Calibration : MonoBehaviour
     
     [SerializeField] private Transform VrCamera;
 
+    private GameObject finger;
+
     private List<Vector3> offsets = new List<Vector3>();
     
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        finger = masterScript.calibrationFinger;
     }
 
     // Update is called once per frame
@@ -42,12 +45,10 @@ public class Calibration : MonoBehaviour
         dot.transform.localPosition = new Vector3(0f,0f,0f); //Reset position before translating
         dot.transform.localRotation = Quaternion.Euler(0,0,0);
         dot.transform.Translate(xTransform, yTransform, 0.0f);
-        
-        Vector3 handPosition = new Vector3(0,0,0);
-        GameObject thumb;
-        thumb = GameObject.FindWithTag("Thumb");
-        if (thumb != null)
-            handPosition = thumb.transform.position;
+
+        Vector3 handPosition = new Vector3(0, 0, 0);
+        if (finger != null)
+            handPosition = finger.transform.position;
         
         offsets.Add(dot.transform.position - handPosition);
         return dot.transform.position;

@@ -9,23 +9,29 @@ public class UDPReceiver : MonoBehaviour
     // Server code (running on desktop)
     private UdpClient udpClient;
     private IPEndPoint localEndPoint;
-    [SerializeField] private string ip;
-    [SerializeField] private int port;
+    private string ip;
+    private int port;
     private bool calibrated = false;
     private int counter = 0;
     private DisplayTouch displayTouch;
     private Calibration calibration;
     [SerializeField] private int nTouches;
     private Game game;
+    private GameObject touchscreen;
     
     void Start()
     {
         // Initialize the UDP client and set the local endpoint to the desktop app's address and port
         localEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
         udpClient = new UdpClient(localEndPoint);
-        displayTouch = GameObject.Find("TouchScreen").GetComponent<DisplayTouch>();
-        calibration = GameObject.Find("TouchScreen").GetComponent<Calibration>();
+        displayTouch = touchscreen.GetComponent<DisplayTouch>();
+        calibration = touchscreen.GetComponent<Calibration>();
         game = GameObject.Find("Game").GetComponent<Game>();
+        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        touchscreen = masterScript.touchscreen;
+        ip = masterScript.ip;
+        port = masterScript.port;
+        
         
 
         Debug.Log("Server started");
@@ -38,7 +44,7 @@ public class UDPReceiver : MonoBehaviour
         {
             byte[] data = udpClient.Receive(ref localEndPoint);
             string message = System.Text.Encoding.UTF8.GetString(data);
-            //Debug.Log("Received message: " + message);
+            Debug.Log("Received message: " + message);
             ParseMessage(message);
         }
 
@@ -52,7 +58,7 @@ public class UDPReceiver : MonoBehaviour
     void ParseMessage(string message)
     {
         string[] splitMessage = message.Split(';');
-        if (splitMessage.Length == 1) // If message has  size 1 then its just starting screen size
+        if (splitMessage.Length == 1) // If message has size 1 then its just starting screen size
         {
             //Get only coords after : and then split by ,
             string[] coords = splitMessage[0].Split(':')[1].Split(',');

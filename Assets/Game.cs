@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.DualShock;
+using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
@@ -32,10 +34,16 @@ public class Game : MonoBehaviour
     private Queue<Vector3> touchQueue = new Queue<Vector3>();
     private Dictionary<int, bool> activeCells = new Dictionary<int, bool>();
 
+    private GameObject gridGenerator;
+
+    public TestControl masterScript;
+
     private void Start()
     {
-        LeftHandProjection = GameObject.Find("LeftHandProjection");
-        RightHandProjection = GameObject.Find("RightHandProjection");
+        masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        LeftHandProjection = masterScript.leftHandProjection;
+        RightHandProjection = masterScript.rightHandProjection;
+        gridGenerator = masterScript.gridGenerator;
     }
 
     // Update is called once per frame
@@ -43,11 +51,13 @@ public class Game : MonoBehaviour
     {
         if (gameInit)
         {
-            //use x,y
+            
             while (touchQueue.Count != 0)
             {
                 var coords = touchQueue.Dequeue();
                 var collidingCell = -1;
+                
+                //instead of choosing projection, need to use actual coords for baseline
                 if (touchIsCloserToLeft(coords))
                 {
                     collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
@@ -103,7 +113,7 @@ public class Game : MonoBehaviour
         }
         
         //End game if no time
-        if (timeLeft <= 0)
+        if (timeLeft <= 0 && gameInit)
         {
             endGame();
         }
@@ -133,6 +143,25 @@ public class Game : MonoBehaviour
         cell.GetComponent<TimeToClick>().startTimer();
         lastRandom = randomTarget;
         activeCells[randomTarget] = true;
+        var cell1 = -1;
+        var cell2 = -1;
+        foreach (var cellValue in activeCells.Keys)
+        {
+            if (activeCells[cellValue] == true)
+            {
+                if (cell1 == -1)
+                {
+                    cell1 = cellValue;
+                }
+
+                if (cell1 != -1)
+                {
+                    cell2 = cellValue;
+                }
+            }
+        }
+        masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ","
+        + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Generate,,,,");
         nTargets++;
         Debug.Log("Generating target, n targets = " + nTargets + "; Target value = " + randomTarget);
         
@@ -146,7 +175,7 @@ public class Game : MonoBehaviour
     public void startGame()
     {
         resetTimer();
-        gridSize = GameObject.Find("GridGenerator").GetComponent<GridGenerator>().gridSize;
+        gridSize = gridGenerator.GetComponent<GridGenerator>().gridSize;
         for (int i = 0; i < gridSize; i++)
         {
             activeCells.Add(i,false);
@@ -163,7 +192,8 @@ public class Game : MonoBehaviour
 
         activeCells = new Dictionary<int, bool>();
         gameInit = false;
-        GameObject.Find("GridGenerator").GetComponent<GridGenerator>().enabled = false;
+        gridGenerator.GetComponent<GridGenerator>().enabled = false;
+        masterScript.dataWriter.Close();
     }
 
     public bool hasStarted()
