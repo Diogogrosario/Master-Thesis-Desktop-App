@@ -177,7 +177,6 @@ MonoBehaviour:
   maxTargets: 2
   gridCircleTexture: {fileID: 2800000, guid: 1fb2a73c66955684db24880b861246ac, type: 3}
   gridTexture: {fileID: 2800000, guid: ddfa402c1055f3b4aaa1917a0ede784a, type: 3}
-  masterScript: {fileID: 0}
 --- !u!1 &267103106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1763,7 @@ MonoBehaviour:
   leftHandProjection: {fileID: 0}
   rightHandProjection: {fileID: 0}
   isMobile: 0
+  isProjection: 0
   touchscreen: {fileID: 0}
   calibrationFinger: {fileID: 0}
   gridGenerator: {fileID: 0}

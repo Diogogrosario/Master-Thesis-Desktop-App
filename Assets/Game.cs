@@ -58,16 +58,33 @@ public class Game : MonoBehaviour
                 var collidingCell = -1;
                 
                 //instead of choosing projection, need to use actual coords for baseline
-                if (touchIsCloserToLeft(coords))
+                if (masterScript.isProjection)
                 {
-                    collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    if (touchIsCloserToLeft(coords))
+                    {
+                        collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    }
+                    else
+                    {
+                        collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    }
+                    
+                    Debug.Log("Projection colliding with cell -> " + collidingCell);
                 }
                 else
                 {
-                    collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    GameObject dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                    dot.transform.localPosition = coords;
+                    dot.AddComponent<Rigidbody>();
+                    dot.GetComponent<Rigidbody>().isKinematic = true;
+                    dot.GetComponent<SphereCollider>().isTrigger = true;
+                    dot.GetComponent<SphereCollider>().radius = 0.1f;
+                    dot.AddComponent<PhoneOverlap>();
+                    collidingCell = dot.GetComponent<PhoneOverlap>().currentGridCell;
+                    Debug.Log("Baseline sphere created, current grid cell = " + collidingCell);
                 }
-                
-                Debug.Log("Projection colliding with cell -> " + collidingCell);
+
                 if (collidingCell == -1)
                 {
                     continue;

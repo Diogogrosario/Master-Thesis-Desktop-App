@@ -22,13 +22,13 @@ public class TestControl : MonoBehaviour
     public GameObject leftHandProjection;
     public GameObject rightHandProjection;
     public bool isMobile;
+    public bool isProjection;
     public GameObject touchscreen;
     
     public GameObject calibrationFinger;
     public GameObject gridGenerator;
     
     
-    public StreamWriter touchWriter;
     public StreamWriter dataWriter;
 
     void Awake()
@@ -39,6 +39,7 @@ public class TestControl : MonoBehaviour
             rightHandProjection = GameObject.Find("RightHandProjection");
 
             isMobile = true;
+            isProjection = true;
             touchscreen = GameObject.Find("MobileTouchScreen");
             
             GameObject.Find("baseMeshHand_Left_GRP").SetActive(false);
@@ -52,6 +53,7 @@ public class TestControl : MonoBehaviour
         }
         else if (setups == Setups.MobilePhoneBaseline)
         {
+            isProjection = false;
             isMobile = true;
             touchscreen = GameObject.Find("MobileTouchScreen");
             
@@ -70,6 +72,7 @@ public class TestControl : MonoBehaviour
             rightHandProjection = GameObject.Find("RightHandProjection");
 
             isMobile = false;
+            isProjection = true;
             touchscreen = GameObject.Find("DellTouchScreen");
             
             GameObject.Find("baseMeshHand_Left_GRP").SetActive(false);
@@ -83,6 +86,7 @@ public class TestControl : MonoBehaviour
         }
         else if (setups == Setups.TouchscreenBaseline)
         {
+            isProjection = false;
             isMobile = false;
             touchscreen = GameObject.Find("DellTouchScreen");
             
