@@ -11,10 +11,11 @@ public class HandTrackingData : MonoBehaviour
     private GameObject LeftHandProjection;
     private GameObject RightHandProjection;
     private bool isMobile;
+    private TestControl masterScript;
 
     private void Start()
     {
-        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
         LeftHandProjection = masterScript.leftHandProjection;
         RightHandProjection = masterScript.rightHandProjection;
         isMobile = masterScript.isMobile;
@@ -49,14 +50,26 @@ public class HandTrackingData : MonoBehaviour
             }
         }
         //lost track, change color
+        var color = new Color(136 / 255f, 138 / 255f, 133 / 255f);
         if (!left)
         {
-            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(136/255f, 138/255f, 133/255f);
+            if (LeftHandProjection.GetComponent<Renderer>().material.color != color)
+            {
+                LeftHandProjection.GetComponent<Renderer>().material.color = color;
+                masterScript.dataWriter.WriteLine(DateTime.UtcNow + ",," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
+                                                  + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",LostTrack,,true,,");
+            }
         }
 
         if (!right)
         {
-            RightHandProjection.GetComponent<Renderer>().material.color = new Color(136/255f, 138/255f, 133/255f);
+            
+            if (RightHandProjection.GetComponent<Renderer>().material.color != color)
+            {
+                RightHandProjection.GetComponent<Renderer>().material.color = color;
+                masterScript.dataWriter.WriteLine(DateTime.UtcNow + ",," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
+                                                  + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",LostTrack,,,true,");
+            }
         }
     }
 

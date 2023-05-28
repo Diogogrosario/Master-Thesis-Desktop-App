@@ -699,6 +699,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0000000013969839
       objectReference: {fileID: 0}
+    - target: {fileID: 880726829970758864, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_TagString
+      value: HandMesh
+      objectReference: {fileID: 0}
     - target: {fileID: 1015311468456129628, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_Name
       value: GhostHands
@@ -858,6 +862,10 @@ PrefabInstance:
     - target: {fileID: 1849621849989919361, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.0000000035215635
+      objectReference: {fileID: 0}
+    - target: {fileID: 1867558777296241280, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2070304069051547031, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1354,6 +1362,10 @@ PrefabInstance:
     - target: {fileID: 7613540458556482098, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.z
       value: 2.3283064e-10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780187846446140012, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_TagString
+      value: HandMesh
       objectReference: {fileID: 0}
     - target: {fileID: 7836186613656700856, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.x
