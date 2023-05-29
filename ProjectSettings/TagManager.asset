@@ -8,6 +8,7 @@ TagManager:
   - Thumb
   - Grid
   - Index
+  - HandMesh
   layers:
   - Default
   - TransparentFX

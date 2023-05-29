@@ -26,7 +26,10 @@ public class TestControl : MonoBehaviour
     
     public GameObject calibrationFinger;
     public GameObject gridGenerator;
-    
+
+    public GameObject device;
+
+    public float upShift;
     
     public StreamWriter touchWriter;
     public StreamWriter dataWriter;
@@ -41,13 +44,17 @@ public class TestControl : MonoBehaviour
             isMobile = true;
             touchscreen = GameObject.Find("MobileTouchScreen");
             
-            GameObject.Find("baseMeshHand_Left_GRP").SetActive(false);
-            GameObject.Find("baseMeshHand_Right_GRP").SetActive(false);
+            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
+                handMesh.SetActive(false);
 
             calibrationFinger = GameObject.FindWithTag("Thumb");
 
             gridGenerator = GameObject.Find("MobileGridGenerator");
-            
+
+            device = GameObject.Find("MobileDevice");
+
+            upShift = 0.0025f;
+                
             GameObject.Find("BiTouchScreen").SetActive(false);
         }
         else if (setups == Setups.MobilePhoneBaseline)
@@ -55,12 +62,16 @@ public class TestControl : MonoBehaviour
             isMobile = true;
             touchscreen = GameObject.Find("MobileTouchScreen");
             
-            GameObject.Find("baseMeshHand_Left_GRP").SetActive(true);
-            GameObject.Find("baseMeshHand_Right_GRP").SetActive(true);
+            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
+                handMesh.SetActive(true);
             
             calibrationFinger = GameObject.FindWithTag("Thumb");
             
             gridGenerator = GameObject.Find("MobileGridGenerator");
+            
+            device = GameObject.Find("MobileDevice");
+            
+            upShift = 0.0025f;
             
             GameObject.Find("BiTouchScreen").SetActive(false);
         }
@@ -72,12 +83,16 @@ public class TestControl : MonoBehaviour
             isMobile = false;
             touchscreen = GameObject.Find("DellTouchScreen");
             
-            GameObject.Find("baseMeshHand_Left_GRP").SetActive(false);
-            GameObject.Find("baseMeshHand_Right_GRP").SetActive(false);
+            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
+                handMesh.SetActive(false);
             
             calibrationFinger = GameObject.FindWithTag("Index");
             
             gridGenerator = GameObject.Find("DellGridGenerator");
+            
+            device = GameObject.Find("BiTouchScreen");
+            
+            upShift = 0.028f;
             
             GameObject.Find("MobileDevice").SetActive(false);
         }
@@ -86,12 +101,16 @@ public class TestControl : MonoBehaviour
             isMobile = false;
             touchscreen = GameObject.Find("DellTouchScreen");
             
-            GameObject.Find("baseMeshHand_Left_GRP").SetActive(true);
-            GameObject.Find("baseMeshHand_Right_GRP").SetActive(true);
+            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
+                handMesh.SetActive(true);
             
             calibrationFinger = GameObject.FindWithTag("Index");
             
             gridGenerator = GameObject.Find("DellGridGenerator");
+            
+            device = GameObject.Find("BiTouchScreen");
+            
+            upShift = 0.028f;
             
             GameObject.Find("MobileDevice").SetActive(false);
         }

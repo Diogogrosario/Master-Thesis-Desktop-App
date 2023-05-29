@@ -47,18 +47,18 @@ public class GridGenerator : MonoBehaviour
         }
         else if (task == 4)
         {
-            rows = 6;
-            columns = 4;
+            rows = 4;
+            columns = 6;
         }
         else if (task == 5)
         {
-            rows = 9;
-            columns = 6;
+            rows = 6;
+            columns = 9;
         }
         else if (task == 6)
         {
-            rows = 16;
-            columns = 9;
+            rows = 9;
+            columns = 16;
         }
         int counter = 0;
         gridSize = rows * columns;
@@ -92,7 +92,7 @@ public class GridGenerator : MonoBehaviour
                 cell.transform.rotation = transform.parent.rotation;
                 cell.transform.parent = transform.parent;
                 cell.transform.localScale = new Vector3((1-Xpercentage)/columns, (1-Ypercentage)/rows, 1);
-                cell.transform.localPosition = new Vector3(x, y, -0.075f);
+                cell.transform.localPosition = new Vector3(x, y, -0.025f);
             }
         }
 

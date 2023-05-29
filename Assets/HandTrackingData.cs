@@ -11,13 +11,18 @@ public class HandTrackingData : MonoBehaviour
     private GameObject LeftHandProjection;
     private GameObject RightHandProjection;
     private bool isMobile;
+    private TestControl masterScript;
+    private GameObject device;
+    private float upShift;
 
     private void Start()
     {
-        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
         LeftHandProjection = masterScript.leftHandProjection;
         RightHandProjection = masterScript.rightHandProjection;
         isMobile = masterScript.isMobile;
+        device = masterScript.device;
+        upShift = masterScript.upShift;
     }
 
     private void Update()
@@ -51,22 +56,40 @@ public class HandTrackingData : MonoBehaviour
         //lost track, change color
         if (!left)
         {
-            LeftHandProjection.GetComponent<Renderer>().material.color = new Color(136/255f, 138/255f, 133/255f);
+            var color = new Color(136/255f, 138/255f, 133/255f);
+            if (masterScript.dataWriter != null && LeftHandProjection.GetComponent<Renderer>().material.color != color)
+            {
+                masterScript.dataWriter.WriteLine(DateTime.UtcNow + ",," +
+                                                  RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell
+                                                  + "," + LeftHandProjection.GetComponent<PhoneOverlap>()
+                                                      .currentGridCell + ",LostTrack,,1,");
+            }
+
+            LeftHandProjection.GetComponent<Renderer>().material.color = color;
         }
 
         if (!right)
         {
-            RightHandProjection.GetComponent<Renderer>().material.color = new Color(136/255f, 138/255f, 133/255f);
+            var color = new Color(136/255f, 138/255f, 133/255f);
+            if (masterScript.dataWriter != null && RightHandProjection.GetComponent<Renderer>().material.color != color)
+            {
+                masterScript.dataWriter.WriteLine(DateTime.UtcNow + ",," +
+                                                  RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell
+                                                  + "," + LeftHandProjection.GetComponent<PhoneOverlap>()
+                                                      .currentGridCell + ",LostTrack,,,1");
+            }
+
+            RightHandProjection.GetComponent<Renderer>().material.color = color;
         }
     }
 
     private void ProjectOnMobile(bool isLeft,Vector3 thumbTipPosition)
     {
-        Transform mobilePhonePlane = GameObject.Find("MobileDevice").transform;
+        Transform mobilePhonePlane = device.transform;
         
         var up = mobilePhonePlane.forward;
         Vector3 targetPos = Vector3.ProjectOnPlane(thumbTipPosition, up) + Vector3.Dot(mobilePhonePlane.position, up) * up;
-        Vector3 upShift = -up * 0.0025f;
+        Vector3 upShift = -up * this.upShift;
 
         if (isLeft)
         {

@@ -68,17 +68,6 @@ public class Game : MonoBehaviour
                 }
                 
                 Debug.Log("Projection colliding with cell -> " + collidingCell);
-                if (collidingCell == -1)
-                {
-                    continue;
-                }
-                if (activeCells[collidingCell] == false)
-                {
-                    continue;
-                }
-                var cell = GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
-                
-                Debug.Log("Collided, will reduce targets");
                 var cell1 = -1;
                 var cell2 = -1;
                 foreach (var cellValue in activeCells.Keys)
@@ -96,9 +85,28 @@ public class Game : MonoBehaviour
                         }
                     }
                 }
+                //Outside grid touch
+                if (collidingCell == -1)
+                {
+                    masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
+                                                      + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Touch," 
+                                                      + ",,,");
+                    continue;
+                }
+                //Cell was not active
+                if (activeCells[collidingCell] == false)
+                {
+                    masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
+                                                      + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Touch," 
+                                                      + ",,,");
+                    continue;
+                }
+                var cell = GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
+                
+                Debug.Log("Collided, will reduce targets");
                 masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
                                                   + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Hit," 
-                                                  + cell.GetComponent<TimeToClick>().endTimer() + ",,,");
+                                                  + cell.GetComponent<TimeToClick>().endTimer().ToString() + ",,");
                 activeCells[collidingCell] = false;
                 nTargets--;
                 multiTouchTargetCooldown = 0;
@@ -181,7 +189,7 @@ public class Game : MonoBehaviour
             }
         }
         masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ","
-        + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Generate,,,,");
+        + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Generate,,,");
         nTargets++;
         Debug.Log("Generating target, n targets = " + nTargets + "; Target value = " + randomTarget);
         

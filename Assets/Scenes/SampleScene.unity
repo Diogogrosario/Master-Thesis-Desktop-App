@@ -177,7 +177,6 @@ MonoBehaviour:
   maxTargets: 2
   gridCircleTexture: {fileID: 2800000, guid: 1fb2a73c66955684db24880b861246ac, type: 3}
   gridTexture: {fileID: 2800000, guid: ddfa402c1055f3b4aaa1917a0ede784a, type: 3}
-  masterScript: {fileID: 0}
 --- !u!1 &267103106
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +334,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694870280}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4984b6ac317f83e4faaf29612e498039, type: 3}
   m_Name: 
@@ -699,6 +698,10 @@ PrefabInstance:
     - target: {fileID: 828528155332841732, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.0000000013969839
+      objectReference: {fileID: 0}
+    - target: {fileID: 880726829970758864, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_TagString
+      value: HandMesh
       objectReference: {fileID: 0}
     - target: {fileID: 1015311468456129628, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_Name
@@ -1356,6 +1359,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 2.3283064e-10
       objectReference: {fileID: 0}
+    - target: {fileID: 7780187846446140012, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7780187846446140012, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_TagString
+      value: HandMesh
+      objectReference: {fileID: 0}
     - target: {fileID: 7836186613656700856, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.03734216
@@ -1757,8 +1768,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4f9c2a5d19514295f3d50b3cec2fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setups: 0
-  ip: 192.168.0.8
+  setups: 2
+  ip: 192.168.0.12
   port: 9000
   userID: 0
   leftHandProjection: {fileID: 0}
@@ -1767,6 +1778,8 @@ MonoBehaviour:
   touchscreen: {fileID: 0}
   calibrationFinger: {fileID: 0}
   gridGenerator: {fileID: 0}
+  device: {fileID: 0}
+  upShift: 0
 --- !u!4 &1448911050
 Transform:
   m_ObjectHideFlags: 0
@@ -1944,7 +1957,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589284226}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.05}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01}
   m_LocalScale: {x: 0.99, y: 0.99, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2291,7 +2304,7 @@ MonoBehaviour:
   task: 0
   gridSize: 0
   gridTexture: {fileID: 2800000, guid: ddfa402c1055f3b4aaa1917a0ede784a, type: 3}
-  Xoffset: 0.02
+  Xoffset: 0.04
   Yoffset: 0.04
 --- !u!1 &1913512722
 GameObject:
@@ -2323,7 +2336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3ee9b41cac07049b4ecfcdc65b71a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: -0.009}
+  offset: {x: 0, y: 0.03, z: -0.06}
 --- !u!114 &1913512724
 MonoBehaviour:
   m_ObjectHideFlags: 0

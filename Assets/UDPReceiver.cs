@@ -22,15 +22,16 @@ public class UDPReceiver : MonoBehaviour
     void Start()
     {
         // Initialize the UDP client and set the local endpoint to the desktop app's address and port
+        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        ip = masterScript.ip;
+        port = masterScript.port;
+        touchscreen = masterScript.touchscreen;
         localEndPoint = new IPEndPoint(IPAddress.Parse(ip), port);
         udpClient = new UdpClient(localEndPoint);
         displayTouch = touchscreen.GetComponent<DisplayTouch>();
         calibration = touchscreen.GetComponent<Calibration>();
         game = GameObject.Find("Game").GetComponent<Game>();
-        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
-        touchscreen = masterScript.touchscreen;
-        ip = masterScript.ip;
-        port = masterScript.port;
+        
         
         
 
@@ -44,7 +45,7 @@ public class UDPReceiver : MonoBehaviour
         {
             byte[] data = udpClient.Receive(ref localEndPoint);
             string message = System.Text.Encoding.UTF8.GetString(data);
-            Debug.Log("Received message: " + message);
+            //Debug.Log("Received message: " + message);
             ParseMessage(message);
         }
 
