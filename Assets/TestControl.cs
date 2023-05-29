@@ -22,6 +22,7 @@ public class TestControl : MonoBehaviour
     public GameObject leftHandProjection;
     public GameObject rightHandProjection;
     public bool isMobile;
+    public bool isProjection;
     public GameObject touchscreen;
     
     public GameObject calibrationFinger;
@@ -31,7 +32,6 @@ public class TestControl : MonoBehaviour
 
     public float upShift;
     
-    public StreamWriter touchWriter;
     public StreamWriter dataWriter;
 
     void Awake()
@@ -42,12 +42,16 @@ public class TestControl : MonoBehaviour
             rightHandProjection = GameObject.Find("RightHandProjection");
 
             isMobile = true;
+            isProjection = true;
             touchscreen = GameObject.Find("MobileTouchScreen");
-            
-            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
-                handMesh.SetActive(false);
 
             calibrationFinger = GameObject.FindWithTag("Thumb");
+            
+            var mesh = GameObject.FindGameObjectsWithTag("HandMesh");
+            foreach (var hand in mesh)
+            {
+                hand.SetActive(false);
+            }
 
             gridGenerator = GameObject.Find("MobileGridGenerator");
 
@@ -59,11 +63,13 @@ public class TestControl : MonoBehaviour
         }
         else if (setups == Setups.MobilePhoneBaseline)
         {
+            leftHandProjection = GameObject.Find("LeftHandProjection");
+            rightHandProjection = GameObject.Find("RightHandProjection");
+            
+            isProjection = false;
             isMobile = true;
             touchscreen = GameObject.Find("MobileTouchScreen");
-            
-            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
-                handMesh.SetActive(true);
+
             
             calibrationFinger = GameObject.FindWithTag("Thumb");
             
@@ -81,12 +87,16 @@ public class TestControl : MonoBehaviour
             rightHandProjection = GameObject.Find("RightHandProjection");
 
             isMobile = false;
+            isProjection = true;
             touchscreen = GameObject.Find("DellTouchScreen");
-            
-            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
-                handMesh.SetActive(false);
-            
+
             calibrationFinger = GameObject.FindWithTag("Index");
+
+            var mesh = GameObject.FindGameObjectsWithTag("HandMesh");
+            foreach (var hand in mesh)
+            {
+                hand.SetActive(false);
+            }
             
             gridGenerator = GameObject.Find("DellGridGenerator");
             
@@ -98,14 +108,15 @@ public class TestControl : MonoBehaviour
         }
         else if (setups == Setups.TouchscreenBaseline)
         {
+            leftHandProjection = GameObject.Find("LeftHandProjection");
+            rightHandProjection = GameObject.Find("RightHandProjection");
+            
+            isProjection = false;
             isMobile = false;
             touchscreen = GameObject.Find("DellTouchScreen");
-            
-            foreach(var handMesh in GameObject.FindGameObjectsWithTag("HandMesh"))
-                handMesh.SetActive(true);
-            
+
             calibrationFinger = GameObject.FindWithTag("Index");
-            
+
             gridGenerator = GameObject.Find("DellGridGenerator");
             
             device = GameObject.Find("BiTouchScreen");

@@ -12,6 +12,7 @@ public class HandTrackingData : MonoBehaviour
     private GameObject RightHandProjection;
     private bool isMobile;
     private TestControl masterScript;
+
     private GameObject device;
     private float upShift;
 
@@ -54,9 +55,9 @@ public class HandTrackingData : MonoBehaviour
             }
         }
         //lost track, change color
+        var color = new Color(136 / 255f, 138 / 255f, 133 / 255f);
         if (!left)
         {
-            var color = new Color(136/255f, 138/255f, 133/255f);
             if (masterScript.dataWriter != null && LeftHandProjection.GetComponent<Renderer>().material.color != color)
             {
                 masterScript.dataWriter.WriteLine(DateTime.UtcNow + ",," +
@@ -70,7 +71,6 @@ public class HandTrackingData : MonoBehaviour
 
         if (!right)
         {
-            var color = new Color(136/255f, 138/255f, 133/255f);
             if (masterScript.dataWriter != null && RightHandProjection.GetComponent<Renderer>().material.color != color)
             {
                 masterScript.dataWriter.WriteLine(DateTime.UtcNow + ",," +

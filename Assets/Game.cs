@@ -15,8 +15,6 @@ public class Game : MonoBehaviour
     private float timeLeft = 0;
     private bool gameInit = false;
 
-    private float multiTouchTargetCooldown = 0;
-    
     private int nTargets = 0;
     [SerializeField] private int maxTargets = 2;
     
@@ -58,16 +56,34 @@ public class Game : MonoBehaviour
                 var collidingCell = -1;
                 
                 //instead of choosing projection, need to use actual coords for baseline
-                if (touchIsCloserToLeft(coords))
+                if (masterScript.isProjection)
                 {
-                    collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    if (touchIsCloserToLeft(coords))
+                    {
+                        collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    }
+                    else
+                    {
+                        collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    }
+                    
+                    Debug.Log("Projection colliding with cell -> " + collidingCell);
                 }
                 else
                 {
-                    collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
+                    GameObject dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                    dot.transform.localPosition = coords;
+                    dot.AddComponent<Rigidbody>();
+                    dot.GetComponent<Rigidbody>().isKinematic = true;
+                    dot.GetComponent<SphereCollider>().isTrigger = true;
+                    dot.GetComponent<SphereCollider>().radius = 0.1f;
+                    dot.AddComponent<PhoneOverlap>();
+                    collidingCell = dot.GetComponent<PhoneOverlap>().currentGridCell;
+                    Debug.Log("Baseline sphere created, current grid cell = " + collidingCell);
+                    Destroy(dot);
                 }
-                
-                Debug.Log("Projection colliding with cell -> " + collidingCell);
+
                 var cell1 = -1;
                 var cell2 = -1;
                 foreach (var cellValue in activeCells.Keys)
@@ -109,34 +125,19 @@ public class Game : MonoBehaviour
                                                   + cell.GetComponent<TimeToClick>().endTimer().ToString() + ",,");
                 activeCells[collidingCell] = false;
                 nTargets--;
-                multiTouchTargetCooldown = 0;
             }
 
             //Reduce time
             timeLeft -= Time.deltaTime;
             
-            if (multiTouchTargetCooldown != 0)
-            {
-                multiTouchTargetCooldown -= Time.deltaTime;
-            }
 
             //Debug.Log("Time left for game: " + timeLeft);
-            //Debug.Log("Time left for multi touch event: " + multiTouchTargetCooldown);
             
             //Generate Target and force multiTouch later
-            if (nTargets < maxTargets && multiTouchTargetCooldown <= 0)
+            if (nTargets < maxTargets )
             {
                 generateTarget();
-                //Debug.Log(multiTouchTargetCooldown);
-                //generated multitouch -> reset
-                if (multiTouchTargetCooldown < 0)
-                {
-                    multiTouchTargetCooldown = 0;
-                }
-                else //force multitouch later
-                {
-                    multiTouchTargetCooldown = multiTouchCooldown;
-                }
+                
             }
         }
         

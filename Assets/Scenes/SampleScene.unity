@@ -863,6 +863,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.0000000035215635
       objectReference: {fileID: 0}
+    - target: {fileID: 1867558777296241280, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2070304069051547031, guid: e7e358565e530214c97adba8c82fedc6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.04028475
@@ -1775,6 +1779,7 @@ MonoBehaviour:
   leftHandProjection: {fileID: 0}
   rightHandProjection: {fileID: 0}
   isMobile: 0
+  isProjection: 0
   touchscreen: {fileID: 0}
   calibrationFinger: {fileID: 0}
   gridGenerator: {fileID: 0}
