@@ -5,8 +5,7 @@ using UnityEngine;
 
 public class TimeToClick : MonoBehaviour
 {
-    private System.DateTime startTime;
-    private System.DateTime endTime;
+    private float time = -1; 
     // Start is called before the first frame update
     void Start()
     {
@@ -16,17 +15,18 @@ public class TimeToClick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(time != -1)
+            time += Time.deltaTime;
     }
 
     public void startTimer()
     {
-        startTime = DateTime.UtcNow;
+        time = 0;
     }
 
-    public TimeSpan endTimer()
+    public string endTimer()
     {
-        endTime = DateTime.UtcNow;
-        System.TimeSpan ts = endTime - startTime;
-        return ts;
+        return time.ToString();
     }
+    
 }

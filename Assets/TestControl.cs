@@ -65,6 +65,8 @@ public class TestControl : MonoBehaviour
         {
             leftHandProjection = GameObject.Find("LeftHandProjection");
             rightHandProjection = GameObject.Find("RightHandProjection");
+            leftHandProjection.GetComponent<Renderer>().enabled = false;
+            rightHandProjection.GetComponent<Renderer>().enabled = false;
             
             isProjection = false;
             isMobile = true;
@@ -110,6 +112,9 @@ public class TestControl : MonoBehaviour
         {
             leftHandProjection = GameObject.Find("LeftHandProjection");
             rightHandProjection = GameObject.Find("RightHandProjection");
+            leftHandProjection.GetComponent<Renderer>().enabled = false;
+            rightHandProjection.GetComponent<Renderer>().enabled = false;
+
             
             isProjection = false;
             isMobile = false;

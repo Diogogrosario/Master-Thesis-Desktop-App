@@ -43,7 +43,8 @@ public class HandTrackingData : MonoBehaviour
             {
                 _finger = _hand.GetIndex();
             }
-
+            
+            
             ProjectOnMobile(_hand.IsLeft,_finger.TipPosition);
             if (_hand.IsLeft)
             {
@@ -67,6 +68,7 @@ public class HandTrackingData : MonoBehaviour
             }
 
             LeftHandProjection.GetComponent<Renderer>().material.color = color;
+            LeftHandProjection.GetComponent<Renderer>().enabled = false;
         }
 
         if (!right)
@@ -80,6 +82,7 @@ public class HandTrackingData : MonoBehaviour
             }
 
             RightHandProjection.GetComponent<Renderer>().material.color = color;
+            RightHandProjection.GetComponent<Renderer>().enabled = false;
         }
     }
 
@@ -95,11 +98,13 @@ public class HandTrackingData : MonoBehaviour
         {
             LeftHandProjection.transform.localPosition = targetPos + upShift;
             LeftHandProjection.GetComponent<Renderer>().material.color = new Color(239/255f, 41/255f, 41/255f);
+            LeftHandProjection.GetComponent<Renderer>().enabled = false;
         }
         else
         {
             RightHandProjection.transform.localPosition = targetPos + upShift;
             RightHandProjection.GetComponent<Renderer>().material.color = new Color(114/255f, 159/255f, 207/255f);
+            RightHandProjection.GetComponent<Renderer>().enabled = false;
         }
 
     }

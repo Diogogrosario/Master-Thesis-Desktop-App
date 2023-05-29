@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour
 {
-
     [SerializeField] private float gameTime;
     [SerializeField] private float multiTouchCooldown;
 
@@ -17,15 +16,15 @@ public class Game : MonoBehaviour
 
     private int nTargets = 0;
     [SerializeField] private int maxTargets = 2;
-    
+
     private float gridSize;
-    
+
     [SerializeField] private Texture2D gridCircleTexture;
     [SerializeField] private Texture2D gridTexture;
 
     private int lastRandom = -1;
-    
-    
+
+
     private GameObject LeftHandProjection;
     private GameObject RightHandProjection;
 
@@ -49,40 +48,24 @@ public class Game : MonoBehaviour
     {
         if (gameInit)
         {
-            
             while (touchQueue.Count != 0)
             {
                 var coords = touchQueue.Dequeue();
                 var collidingCell = -1;
-                
+
                 //instead of choosing projection, need to use actual coords for baseline
-                if (masterScript.isProjection)
+
+                if (touchIsCloserToLeft(coords))
                 {
-                    if (touchIsCloserToLeft(coords))
-                    {
-                        collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
-                    }
-                    else
-                    {
-                        collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
-                    }
-                    
-                    Debug.Log("Projection colliding with cell -> " + collidingCell);
+                    collidingCell = LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
                 }
                 else
                 {
-                    GameObject dot = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    dot.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-                    dot.transform.localPosition = coords;
-                    dot.AddComponent<Rigidbody>();
-                    dot.GetComponent<Rigidbody>().isKinematic = true;
-                    dot.GetComponent<SphereCollider>().isTrigger = true;
-                    dot.GetComponent<SphereCollider>().radius = 0.1f;
-                    dot.AddComponent<PhoneOverlap>();
-                    collidingCell = dot.GetComponent<PhoneOverlap>().currentGridCell;
-                    Debug.Log("Baseline sphere created, current grid cell = " + collidingCell);
-                    Destroy(dot);
+                    collidingCell = RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell;
                 }
+
+                Debug.Log("Projection colliding with cell -> " + collidingCell);
+
 
                 var cell1 = -1;
                 var cell2 = -1;
@@ -101,46 +84,57 @@ public class Game : MonoBehaviour
                         }
                     }
                 }
+
                 //Outside grid touch
                 if (collidingCell == -1)
                 {
-                    masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
-                                                      + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Touch," 
-                                                      + ",,,");
+                    if (masterScript.dataWriter != null)
+                        masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," +
+                                                          RightHandProjection.GetComponent<PhoneOverlap>()
+                                                              .currentGridCell
+                                                          + "," + LeftHandProjection.GetComponent<PhoneOverlap>()
+                                                              .currentGridCell + ",Touch,,,,");
                     continue;
                 }
+
                 //Cell was not active
                 if (activeCells[collidingCell] == false)
                 {
-                    masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
-                                                      + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Touch," 
-                                                      + ",,,");
+                    if (masterScript.dataWriter != null)
+                        masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," +
+                                                          RightHandProjection.GetComponent<PhoneOverlap>()
+                                                              .currentGridCell
+                                                          + "," + LeftHandProjection.GetComponent<PhoneOverlap>()
+                                                              .currentGridCell + ",Touch,,,,");
                     continue;
                 }
-                var cell = GameObject.Find("Grid" + collidingCell).GetComponent<Renderer>().material.mainTexture = gridTexture;
-                
+
+                var cell = GameObject.Find("Grid" + collidingCell);
+                cell.GetComponent<Renderer>().material.mainTexture = gridTexture;
                 Debug.Log("Collided, will reduce targets");
-                masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell 
-                                                  + "," + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Hit," 
-                                                  + cell.GetComponent<TimeToClick>().endTimer().ToString() + ",,");
+                if (masterScript.dataWriter != null)
+                    masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," +
+                                                      RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell
+                                                      + "," + LeftHandProjection.GetComponent<PhoneOverlap>()
+                                                          .currentGridCell + ",Hit,"
+                                                      + cell.GetComponent<TimeToClick>().endTimer() + ",,,");
                 activeCells[collidingCell] = false;
                 nTargets--;
             }
 
             //Reduce time
             timeLeft -= Time.deltaTime;
-            
+
 
             //Debug.Log("Time left for game: " + timeLeft);
-            
+
             //Generate Target and force multiTouch later
-            if (nTargets < maxTargets )
+            if (nTargets < maxTargets)
             {
                 generateTarget();
-                
             }
         }
-        
+
         //End game if no time
         if (timeLeft <= 0 && gameInit)
         {
@@ -152,17 +146,16 @@ public class Game : MonoBehaviour
     {
         float leftDistance = Vector3.Distance(coords, LeftHandProjection.transform.position);
         float rightDistance = Vector3.Distance(coords, RightHandProjection.transform.position);
-        Debug.Log("left distance: " + leftDistance);
-        Debug.Log("right distance: " + rightDistance);
+        //Debug.Log("left distance: " + leftDistance);
+        //Debug.Log("right distance: " + rightDistance);
         return leftDistance < rightDistance;
-
     }
 
     //need to implement force not same target
     private void generateTarget()
     {
         int randomTarget = (int)Random.Range(0, gridSize - 1);
-        while(randomTarget == lastRandom)
+        while (randomTarget == lastRandom)
         {
             randomTarget = (int)Random.Range(0, gridSize - 1);
         }
@@ -189,11 +182,14 @@ public class Game : MonoBehaviour
                 }
             }
         }
-        masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," + RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ","
-        + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ",Generate,,,");
+
+        if (masterScript.dataWriter != null)
+            masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," +
+                                              RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ","
+                                              + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell +
+                                              ",Generate,,,");
         nTargets++;
         Debug.Log("Generating target, n targets = " + nTargets + "; Target value = " + randomTarget);
-        
     }
 
     public void resetTimer()
@@ -207,11 +203,12 @@ public class Game : MonoBehaviour
         gridSize = gridGenerator.GetComponent<GridGenerator>().gridSize;
         for (int i = 0; i < gridSize; i++)
         {
-            activeCells.Add(i,false);
+            activeCells.Add(i, false);
         }
+
         gameInit = true;
     }
-    
+
     private void endGame()
     {
         for (int i = 0; i < gridSize; i++)
@@ -221,8 +218,11 @@ public class Game : MonoBehaviour
 
         activeCells = new Dictionary<int, bool>();
         gameInit = false;
+        timeLeft = 0;
+        nTargets = 0;
         gridGenerator.GetComponent<GridGenerator>().enabled = false;
         masterScript.dataWriter.Close();
+        masterScript.dataWriter = null;
     }
 
     public bool hasStarted()
@@ -233,7 +233,18 @@ public class Game : MonoBehaviour
     //Decide if its right projection or left projection used to trigger;
     public void triggerInput(Vector3 touchPositionInSpace)
     {
+        if (!masterScript.isProjection)
+        {
+            if (touchIsCloserToLeft(touchPositionInSpace))
+            {
+                LeftHandProjection.transform.position = touchPositionInSpace;
+            }
+            else
+            {
+                RightHandProjection.transform.position = touchPositionInSpace;
+            }
+        }
+
         touchQueue.Enqueue(touchPositionInSpace);
     }
 }
-

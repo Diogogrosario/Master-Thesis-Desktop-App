@@ -14,6 +14,7 @@ public class PhoneOverlap : MonoBehaviour
     
     void Start()
     {
+     
         renderer = GetComponent<MeshRenderer>();
         renderer.enabled = false;
     }
@@ -32,8 +33,10 @@ public class PhoneOverlap : MonoBehaviour
 
         if (other.tag == "Grid")
         {
+            Debug.Log("Entered trigger");
             previousCell = currentGridCell;
             currentGridCell = int.Parse(other.name.Substring(4));
+            
         }
     }
     
@@ -46,6 +49,7 @@ public class PhoneOverlap : MonoBehaviour
 
         if (other.tag == "Grid")
         {
+            Debug.Log("Left trigger");
             if (previousCell == currentGridCell)
             {
                 currentGridCell = -1;
