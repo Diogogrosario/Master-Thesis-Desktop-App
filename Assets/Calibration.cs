@@ -69,5 +69,7 @@ public class Calibration : MonoBehaviour
         GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetYAxis += offsetY;
         GameObject.Find("Service Provider (XR)").GetComponent<LeapXRServiceProvider>().deviceOffsetZAxis += offsetZ;
 
+        Debug.Log("Calibrated!");
+
     }
 }
