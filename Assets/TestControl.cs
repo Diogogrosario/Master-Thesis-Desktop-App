@@ -104,7 +104,7 @@ public class TestControl : MonoBehaviour
             
             device = GameObject.Find("BiTouchScreen");
             
-            upShift = 0.028f;
+            upShift = 0.03f;
             
             GameObject.Find("MobileDevice").SetActive(false);
         }
@@ -126,7 +126,7 @@ public class TestControl : MonoBehaviour
             
             device = GameObject.Find("BiTouchScreen");
             
-            upShift = 0.028f;
+            upShift = 0.03f;
             
             GameObject.Find("MobileDevice").SetActive(false);
         }

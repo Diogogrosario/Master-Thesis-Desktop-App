@@ -187,7 +187,7 @@ public class Game : MonoBehaviour
             masterScript.dataWriter.WriteLine(DateTime.UtcNow + "," + cell1 + "_" + cell2 + "," +
                                               RightHandProjection.GetComponent<PhoneOverlap>().currentGridCell + ","
                                               + LeftHandProjection.GetComponent<PhoneOverlap>().currentGridCell +
-                                              ",Generate,,,");
+                                              ",Generate,,,,");
         nTargets++;
         Debug.Log("Generating target, n targets = " + nTargets + "; Target value = " + randomTarget);
     }

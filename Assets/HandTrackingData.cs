@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Leap;
 using Leap.Unity;
+
 public class HandTrackingData : MonoBehaviour
 {
     public LeapProvider leapProvider;
@@ -55,6 +56,7 @@ public class HandTrackingData : MonoBehaviour
                 right = true;
             }
         }
+
         //lost track, change color
         var color = new Color(136 / 255f, 138 / 255f, 133 / 255f);
         if (!left)
