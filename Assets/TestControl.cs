@@ -40,6 +40,8 @@ public class TestControl : MonoBehaviour
         {
             leftHandProjection = GameObject.Find("LeftHandProjection");
             rightHandProjection = GameObject.Find("RightHandProjection");
+            rightHandProjection.transform.localScale = new Vector3(0.008f,0.008f,0.008f);
+            leftHandProjection.transform.localScale = new Vector3(0.008f,0.008f,0.008f);
 
             isMobile = true;
             isProjection = true;
@@ -67,6 +69,9 @@ public class TestControl : MonoBehaviour
             rightHandProjection = GameObject.Find("RightHandProjection");
             leftHandProjection.GetComponent<Renderer>().enabled = false;
             rightHandProjection.GetComponent<Renderer>().enabled = false;
+            
+            rightHandProjection.transform.localScale = new Vector3(0.008f,0.008f,0.008f);
+            leftHandProjection.transform.localScale = new Vector3(0.008f,0.008f,0.008f);
             
             isProjection = false;
             isMobile = true;
@@ -104,7 +109,7 @@ public class TestControl : MonoBehaviour
             
             device = GameObject.Find("BiTouchScreen");
             
-            upShift = 0.03f;
+            upShift = 0.0265f;
             
             GameObject.Find("MobileDevice").SetActive(false);
         }
@@ -126,7 +131,7 @@ public class TestControl : MonoBehaviour
             
             device = GameObject.Find("BiTouchScreen");
             
-            upShift = 0.03f;
+            upShift = 0.0265f;
             
             GameObject.Find("MobileDevice").SetActive(false);
         }

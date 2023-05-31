@@ -18,11 +18,12 @@ public class UDPReceiver : MonoBehaviour
     [SerializeField] private int nTouches;
     private Game game;
     private GameObject touchscreen;
+    private TestControl masterScript;
     
     void Start()
     {
         // Initialize the UDP client and set the local endpoint to the desktop app's address and port
-        var masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
+        masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
         ip = masterScript.ip;
         port = masterScript.port;
         touchscreen = masterScript.touchscreen;
@@ -31,6 +32,7 @@ public class UDPReceiver : MonoBehaviour
         displayTouch = touchscreen.GetComponent<DisplayTouch>();
         calibration = touchscreen.GetComponent<Calibration>();
         game = GameObject.Find("Game").GetComponent<Game>();
+        
         
         
         
@@ -79,7 +81,16 @@ public class UDPReceiver : MonoBehaviour
                     string[] coords = touchData[1].Split(',');
                     //Remove parenthesis
                     float x = float.Parse(coords[0].Substring(1),CultureInfo.InvariantCulture);
-                    float y = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
+                    float fakeY = float.Parse(coords[1].Substring(0, coords[1].Length - 1),CultureInfo.InvariantCulture);
+                    float y;
+                    if (masterScript.isMobile)
+                    {
+                        y =  displayTouch.height - fakeY;
+                    }
+                    else
+                    {
+                        y = fakeY;
+                    }
                     //displayTouch.showTouch(id, x, y);
 
                     if (touchData[0] == "Begin")

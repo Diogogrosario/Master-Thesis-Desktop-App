@@ -1537,7 +1537,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1232952927
 MeshRenderer:
@@ -1742,7 +1742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3ee9b41cac07049b4ecfcdc65b71a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: -0.009}
+  offset: {x: 0, y: 0.05, z: -0.009}
 --- !u!1 &1448911048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1772,7 +1772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4f9c2a5d19514295f3d50b3cec2fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  setups: 3
+  setups: 0
   ip: 192.168.0.12
   port: 9000
   userID: 0
@@ -2199,7 +2199,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &1649387650
 MeshRenderer:
