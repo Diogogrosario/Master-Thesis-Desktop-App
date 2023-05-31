@@ -11,12 +11,13 @@ public class PhoneOverlap : MonoBehaviour
     public int currentGridCell = -1;
     private int previousCell = -1;
     
-    
+    private TestControl masterScript;
     void Start()
     {
      
         renderer = GetComponent<MeshRenderer>();
         renderer.enabled = false;
+        masterScript = GameObject.Find("TestControlScript").GetComponent<TestControl>();
     }
 
     // Update is called once per frame
@@ -28,12 +29,12 @@ public class PhoneOverlap : MonoBehaviour
     {
         if (other.tag == "TouchScreen")
         {
-            renderer.enabled = true;
+            if(masterScript.isProjection)
+                renderer.enabled = true;
         }
 
         if (other.tag == "Grid")
         {
-            Debug.Log("Entered trigger");
             previousCell = currentGridCell;
             currentGridCell = int.Parse(other.name.Substring(4));
             
@@ -44,12 +45,12 @@ public class PhoneOverlap : MonoBehaviour
     {
         if (other.tag == "TouchScreen")
         {
-            renderer.enabled = false;
+            if(masterScript.isProjection)
+                renderer.enabled = false;
         }
 
         if (other.tag == "Grid")
         {
-            Debug.Log("Left trigger");
             if (previousCell == currentGridCell)
             {
                 currentGridCell = -1;
