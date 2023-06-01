@@ -92,7 +92,7 @@ public class GridGenerator : MonoBehaviour
                 cell.transform.rotation = transform.parent.rotation;
                 cell.transform.parent = transform.parent;
                 cell.transform.localScale = new Vector3((1-Xpercentage)/columns, (1-Ypercentage)/rows, 1);
-                cell.transform.localPosition = new Vector3(x, y, -0.05f);
+                cell.transform.localPosition = new Vector3(x, y, -0.025f);
             }
         }
 

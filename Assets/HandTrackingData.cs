@@ -70,7 +70,6 @@ public class HandTrackingData : MonoBehaviour
             }
 
             LeftHandProjection.GetComponent<Renderer>().material.color = color;
-            //LeftHandProjection.GetComponent<Renderer>().enabled = false;
         }
 
         if (!right)
@@ -84,7 +83,6 @@ public class HandTrackingData : MonoBehaviour
             }
 
             RightHandProjection.GetComponent<Renderer>().material.color = color;
-            //RightHandProjection.GetComponent<Renderer>().enabled = false;
         }
     }
 
