@@ -1,25 +1,4 @@
 Timestamp,ActiveCells,RightProjectionCell,LeftProjectionCell,Action,TimeToHit,LostTrackOfLeft,LostTrackOfRight
-6/2/2023 3:00:13 PM,71_71,133,108,Generate,,,,
-6/2/2023 3:00:13 PM,8_71,125,108,Generate,,,,
-6/2/2023 3:00:14 PM,8_71,125,100,Touch,,,,
-6/2/2023 3:00:14 PM,8_71,71,109,Hit,1.700643,,,
-6/2/2023 3:00:14 PM,8_86,71,109,Generate,,,,
-6/2/2023 3:00:15 PM,8_86,113,100,Touch,,,,
-6/2/2023 3:00:15 PM,,114,108,LostTrack,,,1
-6/2/2023 3:00:15 PM,8_86,39,108,Touch,,,,
-6/2/2023 3:00:16 PM,8_86,113,108,Touch,,,,
-6/2/2023 3:00:16 PM,8_86,122,108,Touch,,,,
-6/2/2023 3:00:16 PM,8_86,121,108,Touch,,,,
-6/2/2023 3:00:16 PM,8_86,139,108,Touch,,,,
-6/2/2023 3:00:17 PM,8_86,130,108,Touch,,,,
-6/2/2023 3:00:17 PM,,93,108,LostTrack,,1,
-6/2/2023 3:00:17 PM,8_86,92,108,Touch,,,,
-6/2/2023 3:00:17 PM,,115,99,LostTrack,,,1
-6/2/2023 3:00:17 PM,8_86,115,23,Touch,,,,
-6/2/2023 3:00:18 PM,8_86,115,21,Touch,,,,
-6/2/2023 3:00:18 PM,8_86,115,12,Touch,,,,
-6/2/2023 3:00:22 PM,8_86,79,38,Touch,,,,
-6/2/2023 3:00:22 PM,8_86,78Timestamp,ActiveCells,RightProjectionCell,LeftProjectionCell,Action,TimeToHit,LostTrackOfLeft,LostTrackOfRight
 6/2/2023 3:01:30 PM,28_28,106,-1,Generate,,,,
 6/2/2023 3:01:30 PM,28_95,106,-1,Generate,,,,
 6/2/2023 3:01:31 PM,28_95,104,-1,Touch,,,,
